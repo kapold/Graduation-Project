@@ -3,7 +3,7 @@ import 'package:client/features/login/bloc/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginProcessState()) {
+  LoginBloc() : super(CommonLoginState()) {
     on<ProcessLoginEvent>(_loginHandler);
   }
 
@@ -13,10 +13,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 
 
-      emit(SuccessfulLogin());
+      emit(SuccessfulLoginState());
     }
     catch (error) {
-      emit(FailedLogin(error.toString()));
+      emit(FailedLoginState(error.toString()));
     }
   }
 }

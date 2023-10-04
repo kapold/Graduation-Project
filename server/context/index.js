@@ -8,7 +8,8 @@ const sequelize = new Sequelize(
     config.db.options
 );
 
-// const Pizzas = require("../models/pizza")(Sequelize, sequelize);
+const Users = require("../models/user")(Sequelize, sequelize);
+
 // const Turtles = require("../models/turtle")(Sequelize, sequelize);
 // const Weapons = require("../models/weapon")(Sequelize, sequelize);
 //
@@ -22,15 +23,15 @@ const sequelize = new Sequelize(
 //     foreignKey: "secondFavoritePizzaId",
 // });
 //
-// sequelize
-//     .sync({ alter: true })
-//     .then(() => console.log("Database synced successfully"))
-//     .catch((err) => console.error("Error syncing database:", err));
-//
-// module.exports = {
-//     pizzas: Pizzas,
-//     turtles: Turtles,
-//     weapons: Weapons,
-//     sequelize,
-//     Sequelize,
-// };
+
+sequelize
+    .sync({ alter: true })
+    .then(() => console.log("Database synced successfully"))
+    .catch((err) => console.error("Error syncing database:", err));
+
+module.exports = {
+    users: Users,
+    sequelize,
+    Sequelize,
+};
+

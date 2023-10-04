@@ -32,11 +32,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     child: Column(
                       children: [
                         const Text(
-                          '👋 Welcome, pizza lover! 👋',
+                          'Welcome, pizza lover!',
                           style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 24,
                             color: Colors.deepOrange
                           )
                         ),
@@ -54,16 +54,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onPressed: () {
                         Navigator.pushNamed(context, '/login');
                       },
-                      style: ButtonStyles.getOrangeButtonStyle(),
-                      child: const Text('Sing In')
+                      style: ButtonStyles.getCutedOrangeButtonStyle(),
+                      child: const Text('Sign In')
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/registration');
                       },
-                      style: ButtonStyles.getWhiteButtonStyle(),
-                      child: const Text('Sing Up')
+                      style: ButtonStyles.getCutedWhiteButtonStyle(),
+                      child: const Text('Sign Up')
                   )
                 ]
             )

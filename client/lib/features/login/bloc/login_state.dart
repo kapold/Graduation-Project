@@ -1,11 +1,13 @@
 abstract class LoginState {}
 
+class CommonLoginState extends LoginState {}
+
 class LoginProcessState extends LoginState {}
 
-class SuccessfulLogin extends LoginState {}
+class SuccessfulLoginState extends LoginState {}
 
-class FailedLogin extends LoginState {
+class FailedLoginState extends LoginState {
   final String errorMessage;
 
-  FailedLogin(this.errorMessage);
+  FailedLoginState(this.errorMessage);
 }

@@ -23,6 +23,7 @@ dependencies:
   google_sign_in: ^6.1.4
   cupertino_icons: ^1.0.5
   email_validator: ^2.1.17
+  dart_jsonwebtoken: ^2.11.0
   shared_preferences: ^2.2.1
   sign_in_with_apple: ^5.0.0
   permission_handler: ^11.0.0
@@ -34,13 +35,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
 
-# flutter_icons:
-#  android: "launcher_icon"
-#  ios: true
-#  remove_alpha_ios: true
-#  image_path: "assets/icons/favicon.png"
+flutter_launcher_icons:
+  android: 'launcher_icon'
+  ios: true
+  remove_alpha_ios: true
+  image_path: 'assets/icons/app_icon.png'
 
 flutter:
   uses-material-design: true
