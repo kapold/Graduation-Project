@@ -10,6 +10,7 @@ module.exports = (Sequelize, sequelize) => {
             unique: true
         },
         password: Sequelize.STRING,
-        name: Sequelize.STRING
+        name: Sequelize.STRING,
+        token: Sequelize.STRING
     });
 }

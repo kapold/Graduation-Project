@@ -1,4 +1,4 @@
-const userService = require("../services/userService");
+const userService = require('../services/userService');
 
 module.exports = {
     getAll: async (req, res, next) => {
@@ -17,10 +17,28 @@ module.exports = {
         }
     },
 
-    createUser: async (req, res, next) => {
+    register: async (req, res, next) => {
         try {
             const newUser = req.body;
-            res.json(await userService.createUser(newUser));
+            res.json(await userService.register(newUser));
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    login: async (req, res, next) => {
+        try {
+            const user = req.body;
+            res.json(await userService.login(user));
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    auth: async (req, res, next) => {
+        try {
+            const token = req.body;
+            res.json(await userService.auth(token));
         } catch (error) {
             next(error);
         }
@@ -29,7 +47,6 @@ module.exports = {
     updateUserById: async (req, res, next) => {
         try {
             const userData = req.body;
-
             res.json(await userService.updateUserById(userData));
         } catch (error) {
             next(error);
