@@ -21,7 +21,7 @@ module.exports = {
         let {phoneNumber, password, name} = userData;
 
         if (!name || !password || !phoneNumber) {
-            throw new Error('Name, password and phone number are required');
+            throw errors.invalidInput('Name, password and phone number are required');
         }
 
         password = await bcrypt.hash(password, 10);
@@ -48,11 +48,15 @@ module.exports = {
         let {phoneNumber, password} = userData;
 
         if (!phoneNumber || !password) {
-            throw new Error('Phone number and password are required');
+            throw errors.invalidInput('Phone number and password are required');
         }
 
         const user = await User.findOne(
-            {where: {phoneNumber: phoneNumber}}
+            {
+                where: {
+                    phoneNumber: phoneNumber
+                }
+            }
         );
 
         if (user && (await bcrypt.compare(password, user.password))) {
@@ -67,14 +71,14 @@ module.exports = {
 
             return user;
         } else {
-            throw new Error('User not found');
+            throw errors.entityNotFound;
         }
     },
 
     auth: async (data) => {
         const {token} = data;
         if (!token) {
-            throw new Error('Token is empty');
+            throw errors.invalidInput('Token is empty');
         }
 
         return jwt.verify(token, statics.jwt_secret);
@@ -83,7 +87,7 @@ module.exports = {
     updateUserById: async (userData) => {
         const user = await User.findByPk(parseInt(userData.id));
         if (!user) {
-            throw new Error('User not found');
+            throw errors.entityNotFound;
         }
 
         const {phoneNumber, password, name} = userData;
@@ -104,12 +108,12 @@ module.exports = {
 
     deleteUserById: async (id) => {
         if (!Number.isInteger(id)) {
-            throw new Error('Invalid id');
+            throw errors.invalidId;
         }
 
         const user = await User.findByPk(id);
         if (!user) {
-            throw new Error('User not found');
+            throw errors.entityNotFound;
         }
 
         await user.destroy();

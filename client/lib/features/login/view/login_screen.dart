@@ -1,9 +1,12 @@
 import 'package:client/features/login/login_feature.dart';
+import 'package:client/repositories/user_repository.dart';
+import 'package:client/utils/local_storage.dart';
+import 'package:client/utils/logs.dart';
+import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../utils/validator.dart';
 import '../../../widgets/app_bar_style_widget.dart';
 import '../../../widgets/button_style_widget.dart';
 import '../../../widgets/input_decoration_widget.dart';
@@ -21,9 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loginBloc = LoginBloc();
     return BlocConsumer<LoginBloc, LoginState> (
+      bloc: loginBloc,
       builder: (context, state) {
-        if (state is CommonLoginState) {
+        if (state is CommonLoginState || state is FailedLoginState) {
           return Scaffold(
               appBar: AppBars.getCommonAppBar('Login', context),
               body: Center(
@@ -57,18 +62,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             ElevatedButton(
                               onPressed: () {
                                 String phoneNumber = phoneNumberController.text, password = passwordController.text;
-                                String formattedPhoneNumber = Validator.formatBelarusPhoneNumber(phoneNumber);
-                                phoneNumberController.text = formattedPhoneNumber;
-
-                                if (formattedPhoneNumber.length != 19) {
-                                  print('Phone Number Is Not Valid');
-                                  return;
-                                }
                                 if (password.length < 8 || password.length > 16) {
-                                  print('Password Is Not Valid');
+                                  Logs.warningLog('Password Is Not Valid', 'NotValidInfo');
                                   return;
                                 }
-                                // emit...
+
+                                loginBloc.add(ProcessLoginEvent(
+                                  phoneNumber: phoneNumber,
+                                  password: password
+                                ));
                               },
                               style: ButtonStyles.getCommonOrangeButtonStyle(100, 16),
                               child: const Text('Sign In')
@@ -83,7 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
           return Scaffold(
               appBar: AppBars.getCommonAppBar('Login', context),
               body: const Center(
-                  child: Text('Login Process state')
+                  child: CircularProgressIndicator.adaptive(
+                    backgroundColor: Colors.deepOrange
+                  )
               )
           );
         }
@@ -95,14 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
               )
           );
         }
-        else if (state is FailedLoginState) {
-          return Scaffold(
-              appBar: AppBars.getCommonAppBar('Login', context),
-              body: const Center(
-                  child: Text('Failed Login state')
-              )
-          );
-        }
         else {
           return const Scaffold(
             body: Center(
@@ -111,7 +107,15 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
       },
-      listener: (context, state) {}
+      listener: (context, state) async {
+        if (state is SuccessfulLoginState) {
+          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+          Snacks.success(context, 'Successfully logged!');
+        }
+        else if (state is FailedLoginState) {
+          Snacks.failed(context, 'Login failed!');
+        }
+      }
     );
   }
 }

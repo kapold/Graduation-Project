@@ -22,13 +22,7 @@ module.exports = () => {
 
     router
         .route('/')
-        .get((req, res, next) => {
-            if (Object.keys(req.query).length === 0) {
-                userController.getAll(req, res, next);
-            } else {
-                next();
-            }
-        })
+        .get(userController.getAll)
         .put(userController.updateUserById)
         .delete(userController.deleteUserById)
         .all((req, res, next) => res.error(errors.methodNotAllowed));

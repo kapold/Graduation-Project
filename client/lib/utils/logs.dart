@@ -1,7 +1,9 @@
 import 'package:logger/logger.dart';
 
 class Logs {
-  static final Logger _logger = Logger();
+  static final Logger _logger = Logger(
+    printer: SimplePrinter()
+  );
 
   static void traceLog(String message) => _logger.t(message);
 

@@ -1,27 +1,47 @@
 import 'package:client/features/login/login_feature.dart';
 import 'package:client/features/registration/registration_feature.dart';
 import 'package:client/features/welcome/view/welcome_screen.dart';
+import 'package:client/repositories/user_repository.dart';
 import 'package:client/styles/app_theme.dart';
 import 'package:client/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/home/view/home_screen.dart';
+
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  String initialRoute = '/home';
   ThemeData themeData = (await LocalStorage.getTheme() == 'light')
       ? AppTheme.getLightTheme()
       : AppTheme.getDarkTheme();
 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
-      BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc())
-    ],
-    child: PizzaApp(initialRoute, themeData)
-  ));
+  String initialRoute = '/welcome';
+  UserRepository.auth(await LocalStorage.getToken()).then((response) {
+    if (response.statusCode == 200) {
+      initialRoute = '/home';
+    }
+    else if (response.statusCode == 500) {
+      LocalStorage.clearToken();
+    }
+
+    runApp(MultiBlocProvider(
+        providers: [
+          BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
+          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc())
+        ],
+        child: PizzaApp(initialRoute, themeData)
+    ));
+  }).onError((error, stackTrace) {
+    runApp(MultiBlocProvider(
+        providers: [
+          BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
+          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc())
+        ],
+        child: PizzaApp(initialRoute, themeData)
+    ));
+  });
 }
 
 class PizzaApp extends StatelessWidget {
@@ -35,9 +55,10 @@ class PizzaApp extends StatelessWidget {
     return MaterialApp(
         initialRoute: initialRoute,
         routes: {
-          '/home': (context) => const WelcomeScreen(),
+          '/welcome': (context) => const WelcomeScreen(),
           '/login': (context) => const LoginScreen(),
-          '/registration': (context) => const RegistrationScreen()
+          '/registration': (context) => const RegistrationScreen(),
+          '/home': (context) => const HomeScreen()
         },
         theme: themeData,
         debugShowCheckedModeBanner: false
