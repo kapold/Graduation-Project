@@ -18,7 +18,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       User user = await UserRepository.register(
           event.phoneNumber,
           event.password,
-          event.name
+          event.name,
+          event.isAdmin,
+          event.isStaff
       );
       LocalStorage.saveToken(user.token);
 

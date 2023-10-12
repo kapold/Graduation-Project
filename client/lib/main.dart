@@ -1,5 +1,7 @@
 import 'package:client/features/login/login_feature.dart';
+import 'package:client/features/profile/profile_feature.dart';
 import 'package:client/features/registration/registration_feature.dart';
+
 import 'package:client/features/welcome/view/welcome_screen.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/styles/app_theme.dart';
@@ -29,7 +31,8 @@ Future<void> main() async {
     runApp(MultiBlocProvider(
         providers: [
           BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
-          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc())
+          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
+          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc())
         ],
         child: PizzaApp(initialRoute, themeData)
     ));
@@ -37,7 +40,8 @@ Future<void> main() async {
     runApp(MultiBlocProvider(
         providers: [
           BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
-          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc())
+          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
+          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc())
         ],
         child: PizzaApp(initialRoute, themeData)
     ));

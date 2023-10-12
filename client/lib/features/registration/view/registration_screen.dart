@@ -93,7 +93,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     registrationBloc.add(ProcessRegistrationEvent(
                                         phoneNumber: phoneNumber,
                                         password: password,
-                                        name: name
+                                        name: name,
+                                        isAdmin: false,
+                                        isStaff: false
                                     ));
                                   },
                                   style: ButtonStyles.getCommonOrangeButtonStyle(100, 16),

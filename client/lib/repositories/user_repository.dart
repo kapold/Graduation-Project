@@ -35,13 +35,15 @@ class UserRepository {
     }
   }
 
-  static Future<User> register(String phoneNumber, String password, String name) async {
+  static Future<User> register(String phoneNumber, String password, String name, bool isAdmin, bool isStaff) async {
     final response = await dio.post(
         '${Statics.baseUri}${Statics.userUri}register',
         data: {
           'phoneNumber': phoneNumber,
           'password': password,
-          'name': name
+          'name': name,
+          'isAdmin': isAdmin,
+          'isStaff': isStaff
         }
     );
 
@@ -98,6 +100,52 @@ class UserRepository {
       Logs.infoLog('Login Failed (${response.statusCode})');
       Logs.infoLog('Login Data\n${response.data}');
       throw Exception('Error: Login');
+    }
+  }
+
+  static Future<void> deleteUserById(int id) async {
+    final response = await dio.delete(
+        '${Statics.baseUri}${Statics.userUri}',
+        data: {
+          'id': id
+        }
+    );
+
+    if (response.statusCode == 200) {
+      Logs.infoLog('Delete User');
+    }
+    else if (response.statusCode == 400) {
+      throw Exception('Invalid Id (400)');
+    }
+    else if (response.statusCode == 404) {
+      throw Exception('User not found (404)');
+    }
+    else {
+      Logs.infoLog('Delete user Failed (${response.statusCode})');
+      Logs.infoLog('Delete User Data\n${response.data}');
+      throw Exception('Error: Delete');
+    }
+  }
+
+  static Future<void> updateUserById(int id, String name) async {
+    final response = await dio.put(
+        '${Statics.baseUri}${Statics.userUri}',
+        data: {
+          'id': id,
+          'name': name
+        }
+    );
+
+    if (response.statusCode == 200) {
+      Logs.infoLog('Update User');
+    }
+    else if (response.statusCode == 404) {
+      throw Exception('User not found (404)');
+    }
+    else {
+      Logs.infoLog('Update user Failed (${response.statusCode})');
+      Logs.infoLog('Update User Data\n${response.data}');
+      throw Exception('Error: Update');
     }
   }
 }

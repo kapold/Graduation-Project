@@ -6,13 +6,17 @@ class User extends Equatable {
   String password;
   String name;
   String token;
+  bool isAdmin;
+  bool isStaff;
 
   User({
     required this.id,
     required this.phoneNumber,
     required this.password,
     required this.name,
-    required this.token
+    required this.token,
+    required this.isAdmin,
+    required this.isStaff
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -21,7 +25,9 @@ class User extends Equatable {
       phoneNumber: json['phoneNumber'],
       password: json['password'],
       name: json['name'],
-      token: json['token']
+      token: json['token'],
+      isAdmin: json['isAdmin'],
+      isStaff: json['isStaff']
     );
   }
 
@@ -31,7 +37,9 @@ class User extends Equatable {
       'phoneNumber': phoneNumber,
       'password': password,
       'name': name,
-      'token': token
+      'token': token,
+      'isAdmin': isAdmin,
+      'isStaff': isStaff
     };
   }
 

@@ -11,6 +11,14 @@ module.exports = (Sequelize, sequelize) => {
         },
         password: Sequelize.STRING,
         name: Sequelize.STRING,
-        token: Sequelize.STRING
+        token: Sequelize.STRING,
+        isAdmin: {
+            type: Sequelize.BOOLEAN,
+            default: false
+        },
+        isStaff: {
+            type: Sequelize.BOOLEAN,
+            default: false
+        }
     });
 }

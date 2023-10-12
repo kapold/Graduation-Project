@@ -1,6 +1,10 @@
 import 'package:client/features/cart/view/cart_screen.dart';
 import 'package:client/features/menu/view/menu_screen.dart';
 import 'package:client/features/profile/view/profile_screen.dart';
+import 'package:client/repositories/user_repository.dart';
+import 'package:client/utils/local_storage.dart';
+import 'package:client/utils/profile_data.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +24,18 @@ class _HomeScreenState extends State<HomeScreen> {
     const OrdersScreen(),
     const CartScreen()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserData();
+  }
+
+  Future<void> _getUserData() async {
+    String token = await LocalStorage.getToken();
+    Response<dynamic> parsedToken = await UserRepository.auth(token);
+    ProfileData.user = await UserRepository.getUserById(parsedToken.data['user_id']);
+  }
 
   @override
   Widget build(BuildContext context) {

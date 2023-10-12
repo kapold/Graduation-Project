@@ -18,7 +18,7 @@ module.exports = {
     },
 
     register: async (userData) => {
-        let {phoneNumber, password, name} = userData;
+        let {phoneNumber, password, name, isAdmin, isStaff} = userData;
 
         if (!name || !password || !phoneNumber) {
             throw errors.invalidInput('Name, password and phone number are required');
@@ -29,7 +29,9 @@ module.exports = {
         const user = await User.create({
             phoneNumber,
             password,
-            name
+            name,
+            isAdmin,
+            isStaff
         });
 
         user.token = jwt.sign(
