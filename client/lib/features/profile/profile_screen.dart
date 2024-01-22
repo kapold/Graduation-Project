@@ -2,11 +2,13 @@ import 'package:client/utils/profile_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../utils/snacks.dart';
-import '../../../widgets/button_style_widget.dart';
-import '../../../widgets/input_decoration_widget.dart';
-import '../../../widgets/text_style_widget.dart';
-import '../profile_feature.dart';
+import '../../utils/snacks.dart';
+import '../../widgets/button_style_widget.dart';
+import '../../widgets/input_decoration_widget.dart';
+import '../../widgets/text_style_widget.dart';
+import 'bloc/profile_bloc.dart';
+import 'bloc/profile_event.dart';
+import 'bloc/profile_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -255,6 +257,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: const Text('Save')
                                 ),
                                 const SizedBox(height: 100),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Snacks.alert(context, 'In Development');
+                                    },
+                                    style: ButtonStyles.getCommonOrangeButtonStyle(40, 8),
+                                    child: const Text('Delivery Addresses')
+                                ),
+                                const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
                                       profileBloc.add(DeleteUserEvent(

@@ -10,6 +10,10 @@ module.exports = {
         return User.findAll();
     },
 
+    getAllRoles: async () => {
+        return User.rawAttributes.role.type.values;
+    },
+
     getById: async (userId) => {
         const user = await User.findByPk(parseInt(userId));
         if (!user)

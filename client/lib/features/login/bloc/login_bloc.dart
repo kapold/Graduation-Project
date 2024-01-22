@@ -2,7 +2,6 @@ import 'package:client/features/login/bloc/login_event.dart';
 import 'package:client/features/login/bloc/login_state.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/utils/local_storage.dart';
-import 'package:client/utils/logs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/user.dart';

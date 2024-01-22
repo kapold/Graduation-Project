@@ -1,5 +1,5 @@
 const express = require('express');
-const userController = require('../controllers/userController');
+const userController = require('../controllers/user-сontroller');
 const errors = require('../helpers/errors');
 
 module.exports = () => {
@@ -18,6 +18,10 @@ module.exports = () => {
     router
         .route('/auth')
         .get(userController.auth)
+        .all((req, res, next) => res.error(errors.methodNotAllowed));
+    router
+        .route('/roles')
+        .get(userController.getAllRoles)
         .all((req, res, next) => res.error(errors.methodNotAllowed));
 
     router

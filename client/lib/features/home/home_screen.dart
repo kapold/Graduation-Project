@@ -1,6 +1,6 @@
-import 'package:client/features/cart/view/cart_screen.dart';
-import 'package:client/features/menu/view/menu_screen.dart';
-import 'package:client/features/profile/view/profile_screen.dart';
+import 'package:client/features/cart/cart_screen.dart';
+import 'package:client/features/menu/menu_screen.dart';
+import 'package:client/features/profile/profile_screen.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/utils/local_storage.dart';
 import 'package:client/utils/profile_data.dart';
@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../orders/view/orders_screen.dart';
+import '../orders/orders_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

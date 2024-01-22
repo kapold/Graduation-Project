@@ -14,6 +14,7 @@ dependencies:
   dio: ^5.3.3
   http: ^1.1.0
   lottie: ^2.6.0
+  badges: ^3.1.2
   logger: ^2.0.2+1
   shimmer: ^3.0.0
   equatable: ^2.0.5
@@ -21,24 +22,24 @@ dependencies:
   flutter_svg: ^2.0.7
   flutter_bloc: ^8.1.3
   toggle_switch: ^2.1.0
-  google_sign_in: ^6.1.4
+  anim_search_bar: ^2.0.3
+  pull_to_refresh: ^2.0.0
   cupertino_icons: ^1.0.5
   email_validator: ^2.1.17
   dart_jsonwebtoken: ^2.11.0
   shared_preferences: ^2.2.1
-  sign_in_with_apple: ^5.0.0
   permission_handler: ^11.0.0
-  elegant_notification: ^1.11.0
   flutter_icon_snackbar: ^1.1.4
   flutter_native_splash: ^2.3.2
   flutter_secure_storage: ^9.0.0
+  loading_animation_widget: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 flutter_launcher_icons:
   android: 'launcher_icon'
@@ -71,3 +72,8 @@ flutter:
           weight: 700
         - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
           weight: 800
+    # 2. Poiret font
+    - family: Poiret
+      fonts:
+        - asset: assets/fonts/poiret/PoiretOne-Regular.ttf
+          weight: 400

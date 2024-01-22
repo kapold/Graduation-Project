@@ -1,5 +1,5 @@
 {
-  "db":{
+  "db": {
     "name": "pizzas",
     "user": "postgres",
     "password": "postgres",

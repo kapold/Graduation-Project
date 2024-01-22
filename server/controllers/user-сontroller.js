@@ -1,9 +1,17 @@
-const userService = require('../services/userService');
+const userService = require('../services/user-service');
 
 module.exports = {
     getAll: async (req, res, next) => {
         try {
             res.json(await userService.getAll());
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    getAllRoles: async (req, res, next) => {
+        try {
+            res.json(await userService.getAllRoles());
         } catch (error) {
             next(error);
         }
@@ -59,5 +67,5 @@ module.exports = {
         } catch (error) {
             next(error);
         }
-    }
+    },
 };

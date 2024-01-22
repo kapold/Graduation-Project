@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../widgets/button_style_widget.dart';
-import '../../../widgets/text_style_widget.dart';
+import '../../widgets/button_style_widget.dart';
+import '../../widgets/text_style_widget.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -19,35 +19,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           child: SingleChildScrollView(
             child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: Lottie.asset(
-                        'assets/animations/welcome_anima.json',
-                        width: 400
-                    )
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Welcome, pizza lover!',
+                  const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      child: Text(
+                          'Pizzas',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w800,
-                            fontSize: 24,
-                            color: Colors.deepOrange
+                              fontFamily: 'Poiret',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 56,
+                              color: Colors.deepOrange
                           )
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          "Whether you're craving a classic Margherita, a meaty feast, or a veggie delight, we've got you covered.",
-                          textAlign: TextAlign.justify,
-                          style: TextStyles.getTextStyle('Poppins', FontWeight.w300, 16)
-                        )
-                      ]
-                    )
+                      )
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(right: 30),
+                      child: Lottie.asset(
+                          'assets/animations/welcome_anima.json',
+                          width: 400
+                      )
                   ),
                   const SizedBox(height: 40),
                   ElevatedButton(

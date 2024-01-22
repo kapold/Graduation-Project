@@ -1,15 +1,17 @@
-import 'package:client/features/login/login_feature.dart';
-import 'package:client/features/profile/profile_feature.dart';
-import 'package:client/features/registration/registration_feature.dart';
-
-import 'package:client/features/welcome/view/welcome_screen.dart';
+import 'package:client/features/welcome/welcome_screen.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/styles/app_theme.dart';
 import 'package:client/utils/local_storage.dart';
+import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/home/view/home_screen.dart';
+import 'features/home/home_screen.dart';
+import 'features/login/bloc/login_bloc.dart';
+import 'features/login/login_screen.dart';
+import 'features/profile/bloc/profile_bloc.dart';
+import 'features/registration/bloc/registration_bloc.dart';
+import 'features/registration/registration_screen.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

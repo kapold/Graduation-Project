@@ -12,13 +12,11 @@ module.exports = (Sequelize, sequelize) => {
         password: Sequelize.STRING,
         name: Sequelize.STRING,
         token: Sequelize.STRING,
-        isAdmin: {
-            type: Sequelize.BOOLEAN,
-            default: false
+        role: {
+            type: Sequelize.ENUM,
+            values: ['customer', 'admin', 'staff', 'deliveryman'],
+            allowNull: true,
+            defaultValue: 'customer',
         },
-        isStaff: {
-            type: Sequelize.BOOLEAN,
-            default: false
-        }
     });
 }

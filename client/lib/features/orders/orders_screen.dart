@@ -1,4 +1,3 @@
-import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -35,12 +34,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       initialLabelIndex: statusIndex,
                       totalSwitches: 2,
                       labels: switchStates,
+                      animate: true,
+                      curve: Curves.fastEaseInToSlowEaseOut,
                       onToggle: (index) {
                         setState(() {
                           statusIndex = index as int;
                         });
                         String state = switchStates[index as int];
-                        Snacks.alert(context, state);
                       }
                   ),
                   const SizedBox(height: 10),
