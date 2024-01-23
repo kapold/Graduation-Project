@@ -19,8 +19,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
           event.phoneNumber,
           event.password,
           event.name,
-          event.isAdmin,
-          event.isStaff
+          'customer'
       );
       LocalStorage.saveToken(user.token);
 

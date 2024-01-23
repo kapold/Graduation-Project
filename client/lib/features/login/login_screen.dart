@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginBloc, LoginState> (
+    return BlocConsumer<LoginBloc, LoginState>(
       bloc: loginBloc,
       builder: (context, state) {
         if (state is CommonLoginState || state is FailedLoginState) {
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Snacks.success(context, 'Successfully logged!');
         }
         else if (state is FailedLoginState) {
-          Snacks.failed(context, 'Login failed!');
+          Snacks.failed(context, state.errorMessage);
         }
       }
     );

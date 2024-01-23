@@ -22,10 +22,15 @@ module.exports = {
     },
 
     register: async (userData) => {
-        let {phoneNumber, password, name, isAdmin, isStaff} = userData;
+        let {phoneNumber, password, name, role} = userData;
 
-        if (!name || !password || !phoneNumber) {
+        if (!name || !password || !phoneNumber || !role) {
             throw errors.invalidInput('Name, password and phone number are required');
+        }
+
+        const existingUser = await User.findOne({ where: { phoneNumber } });
+        if (existingUser) {
+            throw errors.entityAlreadyExists;
         }
 
         password = await bcrypt.hash(password, 10);
@@ -34,8 +39,7 @@ module.exports = {
             phoneNumber,
             password,
             name,
-            isAdmin,
-            isStaff
+            role
         });
 
         user.token = jwt.sign(
@@ -96,7 +100,7 @@ module.exports = {
             throw errors.entityNotFound;
         }
 
-        const {phoneNumber, password, name} = userData;
+        const {phoneNumber, password, name, role} = userData;
 
         if (phoneNumber) {
             user.phoneNumber = phoneNumber;
@@ -106,6 +110,9 @@ module.exports = {
         }
         if (name) {
             user.name = name;
+        }
+        if (role) {
+            user.role = role;
         }
 
         await user.save();

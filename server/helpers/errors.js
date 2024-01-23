@@ -34,5 +34,10 @@ module.exports = {
         message: 'methodNotAllowed',
         code: 'method_not_allowed',
         status: 405
-    }
+    },
+    entityAlreadyExists: {
+        message: 'Entity already exists',
+        code: 'entity_already_exists',
+        status: 409
+    },
 };

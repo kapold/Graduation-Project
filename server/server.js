@@ -6,10 +6,10 @@ const errors = require("./helpers/errors");
 const errorController = require("./controllers/error-сontroller");
 const userRoutes = require("./routers/user-router")();
 const deliveryAddressRoutes = require("./routers/delivery-address-router")();
+const productRoutes = require("./routers/product-router")();
 let app = express();
 app.use(bodyParser.json({extended: false}));
 
-// Указываем директорию, где хранятся статические файлы
 app.use(express.static(path.join(__dirname, 'context')));
 
 app.get('/', (req, res) => {
@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users/', userRoutes);
 app.use('/api/delivery-addresses/', deliveryAddressRoutes)
+app.use('/api/products/', productRoutes)
 app.use((req, res, next) => {
     res.error(errors.resourseNotFound);
 });

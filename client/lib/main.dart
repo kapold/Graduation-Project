@@ -1,8 +1,8 @@
+import 'package:client/features/menu/bloc/menu_bloc.dart';
 import 'package:client/features/welcome/welcome_screen.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/styles/app_theme.dart';
 import 'package:client/utils/local_storage.dart';
-import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +15,6 @@ import 'features/registration/registration_screen.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   ThemeData themeData = (await LocalStorage.getTheme() == 'light')
       ? AppTheme.getLightTheme()
@@ -34,7 +33,8 @@ Future<void> main() async {
         providers: [
           BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
           BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
-          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc())
+          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
+          BlocProvider<MenuBloc>(create: (_) => MenuBloc())
         ],
         child: PizzaApp(initialRoute, themeData)
     ));
@@ -43,7 +43,8 @@ Future<void> main() async {
         providers: [
           BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
           BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
-          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc())
+          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
+          BlocProvider<MenuBloc>(create: (_) => MenuBloc())
         ],
         child: PizzaApp(initialRoute, themeData)
     ));

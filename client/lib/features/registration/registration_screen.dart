@@ -140,7 +140,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Snacks.success(context, 'Successfully registered!');
           }
           else if (state is FailedRegistrationState) {
-            Snacks.failed(context, 'Registration failed!');
+            Snacks.failed(context, state.errorMessage);
           }
         }
     );
