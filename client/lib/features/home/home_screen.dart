@@ -18,17 +18,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> pages = [
-    const MenuScreen(),
-    const ProfileScreen(),
-    const OrdersScreen(),
-    const CartScreen()
-  ];
+  late List<Widget> pages;
 
   @override
   void initState() {
     super.initState();
     _getUserData();
+    pages = [
+      MenuScreen(context),
+      ProfileScreen(context),
+      OrdersScreen(context),
+      const CartScreen()
+    ];
   }
 
   Future<void> _getUserData() async {

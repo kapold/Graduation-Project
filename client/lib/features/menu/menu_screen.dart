@@ -9,13 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({super.key});
+  MenuScreen(this.externalContext, {super.key});
+
+  BuildContext externalContext;
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState();
+  State<MenuScreen> createState() => _MenuScreenState(externalContext);
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  _MenuScreenState(this.externalContext);
+  BuildContext externalContext;
+
   final MenuBloc menuBloc = MenuBloc();
   List<Product> menuProducts = [];
   TextEditingController searchController = TextEditingController();

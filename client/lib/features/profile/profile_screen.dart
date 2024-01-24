@@ -1,4 +1,5 @@
 import 'package:client/utils/profile_data.dart';
+import 'package:client/widgets/container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,13 +12,19 @@ import 'bloc/profile_event.dart';
 import 'bloc/profile_state.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen(this.externalContext, {super.key});
+
+  BuildContext externalContext;
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState(externalContext);
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  _ProfileScreenState(this.externalContext);
+  BuildContext externalContext;
+
+  final profileBloc = ProfileBloc();
   TextEditingController phoneNumberController = TextEditingController(),
       nameController = TextEditingController();
 
@@ -28,9 +35,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
     nameController.text = ProfileData.user.name;
   }
 
+  void _saveUserBtn() {
+    if (nameController.text.isEmpty) {
+      Snacks.alert(context, 'Name must be not empty');
+      return;
+    }
+
+    ProfileData.user.name = nameController.text;
+    profileBloc.add(UpdateUserEvent(
+        id: ProfileData.user.id,
+        name: ProfileData.user.name
+    ));
+  }
+
+  void _updateUserBtn() {
+    profileBloc.add(UpdateUserEvent(
+        id: ProfileData.user.id,
+        name: ProfileData.user.name
+    ));
+  }
+
+  void _deleteUserBtn() {
+    profileBloc.add(DeleteUserEvent(
+        id: ProfileData.user.id
+    ));
+  }
+
+  void _logoutUserBtn() {
+    profileBloc.add(LogoutEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
-    final profileBloc = ProfileBloc();
     return BlocConsumer(
       bloc: profileBloc,
       builder: (context, state) {
@@ -44,10 +80,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                               children: [
                                 Text(
-                                    'Profile Settings',
+                                    'Settings',
                                     style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 24)
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 20),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
@@ -66,24 +102,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     )),
                                 const SizedBox(height: 20),
                                 const CircularProgressIndicator.adaptive(backgroundColor: Colors.deepOrange),
-                                const SizedBox(height: 100),
+                                const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(DeleteUserEvent(
-                                          id: ProfileData.user.id
-                                      ));
+                                      _deleteUserBtn();
                                     },
-                                    style: ButtonStyles.getOutlinedRedButtonStyle(60, 8),
+                                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(90, 12),
                                     child: const Text('Delete Account')
                                 ),
                                 const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(LogoutEvent());
+                                      _logoutUserBtn();
                                     },
-                                    style: ButtonStyles.getOutlinedOrangeButtonStyle(100, 8),
+                                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(134, 12),
                                     child: const Text('Logout')
-                                )
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  child: Divider(),
+                                ),
+                                const SizedBox(height: 10),
+                                AppWidgets.getProfileButtonsBlock(externalContext),
                               ]
                           )
                       )
@@ -101,10 +142,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                               children: [
                                 Text(
-                                    'Profile Settings',
+                                    'Settings',
                                     style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 24)
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 20),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
@@ -124,24 +165,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(height: 20),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(UpdateUserEvent(
-                                          id: ProfileData.user.id,
-                                          name: ProfileData.user.name
-                                      ));
+                                      _saveUserBtn();
                                     },
-                                    style: ButtonStyles.getCommonOrangeButtonStyle(110, 8),
-                                    child: const Text('Save')
+                                    style: ButtonStyles.getSquaredOrangeButtonStyle(94, 12),
+                                    child: const Text('Save changes')
                                 ),
-                                const SizedBox(height: 100),
+                                const SizedBox(height: 10),
                                 const CircularProgressIndicator.adaptive(backgroundColor: Colors.deepOrange),
                                 const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(LogoutEvent());
+                                      _logoutUserBtn();
                                     },
-                                    style: ButtonStyles.getOutlinedOrangeButtonStyle(100, 8),
+                                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(134, 12),
                                     child: const Text('Logout')
-                                )
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  child: Divider(),
+                                ),
+                                const SizedBox(height: 10),
+                                AppWidgets.getProfileButtonsBlock(externalContext),
                               ]
                           )
                       )
@@ -159,10 +204,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                               children: [
                                 Text(
-                                    'Profile Settings',
+                                    'Settings',
                                     style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 24)
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 20),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
@@ -182,26 +227,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(height: 20),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(UpdateUserEvent(
-                                          id: ProfileData.user.id,
-                                          name: ProfileData.user.name
-                                      ));
+                                      _saveUserBtn();
                                     },
-                                    style: ButtonStyles.getCommonOrangeButtonStyle(110, 8),
-                                    child: const Text('Save')
+                                    style: ButtonStyles.getSquaredOrangeButtonStyle(94, 12),
+                                    child: const Text('Save changes')
                                 ),
-                                const SizedBox(height: 100),
+                                const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(DeleteUserEvent(
-                                          id: ProfileData.user.id
-                                      ));
+                                      _deleteUserBtn();
                                     },
-                                    style: ButtonStyles.getOutlinedRedButtonStyle(60, 8),
+                                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(90, 12),
                                     child: const Text('Delete Account')
                                 ),
                                 const SizedBox(height: 10),
-                                const CircularProgressIndicator.adaptive(backgroundColor: Colors.deepOrange)
+                                const CircularProgressIndicator.adaptive(backgroundColor: Colors.deepOrange),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  child: Divider(),
+                                ),
+                                const SizedBox(height: 10),
+                                AppWidgets.getProfileButtonsBlock(externalContext),
                               ]
                           )
                       )
@@ -219,10 +266,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                               children: [
                                 Text(
-                                    'Profile Settings',
+                                    'Settings',
                                     style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 24)
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 20),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
@@ -242,46 +289,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(height: 20),
                                 ElevatedButton(
                                     onPressed: () {
-                                      if (nameController.text.isEmpty) {
-                                        Snacks.alert(context, 'Name must be not empty');
-                                        return;
-                                      }
-
-                                      ProfileData.user.name = nameController.text;
-                                      profileBloc.add(UpdateUserEvent(
-                                          id: ProfileData.user.id,
-                                          name: ProfileData.user.name
-                                      ));
+                                      _saveUserBtn();
                                     },
-                                    style: ButtonStyles.getCommonOrangeButtonStyle(110, 8),
-                                    child: const Text('Save')
-                                ),
-                                const SizedBox(height: 100),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Snacks.alert(context, 'In Development');
-                                    },
-                                    style: ButtonStyles.getCommonOrangeButtonStyle(40, 8),
-                                    child: const Text('Delivery Addresses')
+                                    style: ButtonStyles.getSquaredOrangeButtonStyle(94, 12),
+                                    child: const Text('Save changes')
                                 ),
                                 const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(DeleteUserEvent(
-                                          id: ProfileData.user.id
-                                      ));
+                                      _deleteUserBtn();
                                     },
-                                    style: ButtonStyles.getOutlinedRedButtonStyle(60, 8),
+                                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(90, 12),
                                     child: const Text('Delete Account')
                                 ),
                                 const SizedBox(height: 10),
                                 ElevatedButton(
                                     onPressed: () {
-                                      profileBloc.add(LogoutEvent());
+                                      _logoutUserBtn();
                                     },
-                                    style: ButtonStyles.getOutlinedOrangeButtonStyle(100, 8),
+                                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(134, 12),
                                     child: const Text('Logout')
-                                )
+                                ),
+                                const SizedBox(height: 10),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  child: Divider(),
+                                ),
+                                const SizedBox(height: 10),
+                                AppWidgets.getProfileButtonsBlock(externalContext),
                               ]
                           )
                       )

@@ -22,9 +22,9 @@ module.exports = {
     },
 
     register: async (userData) => {
-        let {phoneNumber, password, name, role} = userData;
+        let {phoneNumber, password, name, role, coins} = userData;
 
-        if (!name || !password || !phoneNumber || !role) {
+        if (!name || !password || !phoneNumber) {
             throw errors.invalidInput('Name, password and phone number are required');
         }
 
@@ -100,7 +100,7 @@ module.exports = {
             throw errors.entityNotFound;
         }
 
-        const {phoneNumber, password, name, role} = userData;
+        const {phoneNumber, password, name, role, coins} = userData;
 
         if (phoneNumber) {
             user.phoneNumber = phoneNumber;
@@ -113,6 +113,9 @@ module.exports = {
         }
         if (role) {
             user.role = role;
+        }
+        if (coins) {
+            user.coins = coins;
         }
 
         await user.save();

@@ -53,4 +53,50 @@ class ButtonStyles {
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30)), side: BorderSide(color: Colors.deepOrange)),
         textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
   }
+
+  static ButtonStyle getSquaredOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: Colors.deepOrange,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+  }
+
+  static ButtonStyle getSquaredOutlinedOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.deepOrange,
+        elevation: 0,
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: Colors.deepOrange)),
+        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+  }
+
+  static ButtonStyle getSquaredOutlinedRedButtonStyle(double horizontalPadding, double verticalPadding) {
+    return ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.red,
+        elevation: 0,
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: Colors.red)),
+        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+  }
+
+  static ButtonStyle getOrangeOutlinedBox(double horizontalPadding, double verticalPadding) {
+    return ElevatedButton.styleFrom(
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        side: BorderSide(color: Colors.deepOrange),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black87,
+    );
+  }
 }

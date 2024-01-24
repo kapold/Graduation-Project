@@ -18,5 +18,9 @@ module.exports = (Sequelize, sequelize) => {
             allowNull: true,
             defaultValue: 'customer',
         },
+        coins: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
+        }
     });
 }

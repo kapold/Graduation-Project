@@ -110,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) async {
         if (state is SuccessfulLoginState) {
           Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-          Snacks.success(context, 'Successfully logged!');
         }
         else if (state is FailedLoginState) {
           Snacks.failed(context, state.errorMessage);
