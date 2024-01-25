@@ -21,9 +21,9 @@ class _MenuScreenState extends State<MenuScreen> {
   _MenuScreenState(this.externalContext);
   BuildContext externalContext;
 
-  final MenuBloc menuBloc = MenuBloc();
-  List<Product> menuProducts = [];
-  TextEditingController searchController = TextEditingController();
+  final MenuBloc _menuBloc = MenuBloc();
+  List<Product> _menuProducts = [];
+  final TextEditingController _searchController = TextEditingController();
 
   void onSearchSubmitted(String searchText) {
     Logs.infoLog('onSearchSubmitted: $searchText');
@@ -32,10 +32,10 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MenuBloc, MenuState>(
-      bloc: menuBloc,
+      bloc: _menuBloc,
       builder: (context, state) {
         if (state is LoadingMenuState) {
-          menuBloc.add(GetMenuEvent());
+          _menuBloc.add(GetMenuEvent());
           return Scaffold(
               body: SafeArea(
                   child: Column(
@@ -46,10 +46,10 @@ class _MenuScreenState extends State<MenuScreen> {
                               width: 400,
                               rtl: true,
                               boxShadow: false,
-                              textController: searchController,
+                              textController: _searchController,
                               onSuffixTap: () {
                                 setState(() {
-                                  searchController.clear();
+                                  _searchController.clear();
                                 });
                               },
                               onSubmitted: (value) => onSearchSubmitted(value),
@@ -77,22 +77,22 @@ class _MenuScreenState extends State<MenuScreen> {
                               width: 400,
                               rtl: true,
                               boxShadow: false,
-                              textController: searchController,
+                              textController: _searchController,
                               onSuffixTap: () {
                                 setState(() {
-                                  searchController.clear();
+                                  _searchController.clear();
                                 });
                               },
                               onSubmitted: (value) => onSearchSubmitted(value),
                             )
                         ),
-                        menuProducts.isEmpty
+                        _menuProducts.isEmpty
                           ? const Expanded(child: Center(child: Text('No products in menu')))
                           : Expanded(
                               child: ListView.builder(
-                                itemBuilder: (c, i) => Card(child: Center(child: Text(menuProducts[i].name))),
+                                itemBuilder: (c, i) => Card(child: Center(child: Text(_menuProducts[i].name))),
                                 itemExtent: 100.0,
-                                itemCount: menuProducts.length,
+                                itemCount: _menuProducts.length,
                               )
                           )
                       ]
@@ -111,10 +111,10 @@ class _MenuScreenState extends State<MenuScreen> {
                               width: 400,
                               rtl: true,
                               boxShadow: false,
-                              textController: searchController,
+                              textController: _searchController,
                               onSuffixTap: () {
                                 setState(() {
-                                  searchController.clear();
+                                  _searchController.clear();
                                 });
                               },
                               onSubmitted: (value) => onSearchSubmitted(value),
@@ -141,10 +141,10 @@ class _MenuScreenState extends State<MenuScreen> {
                             width: 400,
                             rtl: true,
                             boxShadow: false,
-                            textController: searchController,
+                            textController: _searchController,
                             onSuffixTap: () {
                               setState(() {
-                                searchController.clear();
+                                _searchController.clear();
                               });
                             },
                             onSubmitted: (value) => onSearchSubmitted(value),
@@ -163,7 +163,7 @@ class _MenuScreenState extends State<MenuScreen> {
       },
       listener: (context, state) {
         if (state is SuccessfulLoadedState) {
-          menuProducts = state.products;
+          _menuProducts = state.products;
         }
       },
     );

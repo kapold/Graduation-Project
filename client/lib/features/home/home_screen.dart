@@ -1,6 +1,7 @@
 import 'package:client/features/cart/cart_screen.dart';
 import 'package:client/features/menu/menu_screen.dart';
 import 'package:client/features/profile/profile_screen.dart';
+import 'package:client/repositories/address_repository.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/utils/local_storage.dart';
 import 'package:client/utils/profile_data.dart';
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String token = await LocalStorage.getToken();
     Response<dynamic> parsedToken = await UserRepository.auth(token);
     ProfileData.user = await UserRepository.getUserById(parsedToken.data['user_id']);
+    ProfileData.deliveryAddresses = await AddresseRepository.getUserAddresses(parsedToken.data['user_id']);
   }
 
   @override

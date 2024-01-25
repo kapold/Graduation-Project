@@ -19,17 +19,17 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final registrationBloc = RegistrationBloc();
-  TextEditingController phoneNumberController = TextEditingController(),
-      passwordController = TextEditingController(),
-      repeatPasswordController = TextEditingController(),
-      nameController = TextEditingController();
+  final _registrationBloc = RegistrationBloc();
+  final TextEditingController _phoneNumberController = TextEditingController(),
+      _passwordController = TextEditingController(),
+      _repeatPasswordController = TextEditingController(),
+      _nameController = TextEditingController();
 
   void _onRegistrationBtn() {
-    String phoneNumber = phoneNumberController.text,
-        password = passwordController.text,
-        repeatPassword = repeatPasswordController.text,
-        name = nameController.text;
+    String phoneNumber = _phoneNumberController.text,
+        password = _passwordController.text,
+        repeatPassword = _repeatPasswordController.text,
+        name = _nameController.text;
 
     if (password != repeatPassword) {
       Snacks.failed(context, 'Password mismatch!');
@@ -40,7 +40,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return;
     }
 
-    registrationBloc.add(ProcessRegistrationEvent(
+    _registrationBloc.add(ProcessRegistrationEvent(
         phoneNumber: phoneNumber,
         password: password,
         name: name,
@@ -52,7 +52,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegistrationBloc, RegistrationState> (
-        bloc: registrationBloc,
+        bloc: _registrationBloc,
         builder: (context, state) {
           if (state is CommonRegistrationState || state is FailedRegistrationState) {
             return Scaffold(
@@ -69,7 +69,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 40),
                                   child: TextField(
-                                      controller: phoneNumberController,
+                                      controller: _phoneNumberController,
                                       cursorColor: Colors.deepOrangeAccent,
                                       style: const TextStyle(fontSize: 18),
                                       decoration: InputDecorations.getOrangeDecoration('Phone Number', 'Enter phone number', Icons.phone)
@@ -78,7 +78,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 40),
                                   child: TextField(
-                                      controller: nameController,
+                                      controller: _nameController,
                                       cursorColor: Colors.deepOrangeAccent,
                                       style: const TextStyle(fontSize: 18),
                                       decoration: InputDecorations.getOrangeDecoration('Name', 'Enter name', Icons.account_circle_outlined)
@@ -87,7 +87,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 40),
                                   child: TextField(
-                                      controller: passwordController,
+                                      controller: _passwordController,
                                       obscureText: true,
                                       cursorColor: Colors.deepOrangeAccent,
                                       style: const TextStyle(fontSize: 18),
@@ -97,7 +97,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 40),
                                   child: TextField(
-                                      controller: repeatPasswordController,
+                                      controller: _repeatPasswordController,
                                       obscureText: true,
                                       style: const TextStyle(fontSize: 18),
                                       decoration: InputDecorations.getOrangeDecoration('Repeat Password', 'Repeat password', Icons.password_outlined)

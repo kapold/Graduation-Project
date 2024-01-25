@@ -9,10 +9,25 @@ module.exports = {
         }
     },
 
+    getByUserId: async (req, res, next) => {
+        try {
+            res.json(await deliveryAddressService.getByUserId(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    addAddress: async (req, res, next) => {
+        try {
+            res.json(await deliveryAddressService.addAddress(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
+
     updateAddressById: async (req, res, next) => {
         try {
-            const addressData = req.body;
-            res.json(await deliveryAddressService.updateAddressById(addressData));
+            res.json(await deliveryAddressService.updateAddressById(req.body));
         } catch (error) {
             next(error);
         }

@@ -53,7 +53,9 @@ class AppWidgets {
           AppWidgets.getUnderbuttonText('Collect and spend on free pizza!', 340, 24),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/addresses');
+            },
             style: ButtonStyles.getOrangeOutlinedBox(24, 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

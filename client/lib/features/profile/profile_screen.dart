@@ -24,51 +24,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _ProfileScreenState(this.externalContext);
   BuildContext externalContext;
 
-  final profileBloc = ProfileBloc();
-  TextEditingController phoneNumberController = TextEditingController(),
-      nameController = TextEditingController();
+  final _profileBloc = ProfileBloc();
+  final TextEditingController _phoneNumberController = TextEditingController(),
+      _nameController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    phoneNumberController.text = ProfileData.user.phoneNumber;
-    nameController.text = ProfileData.user.name;
+    _phoneNumberController.text = ProfileData.user.phoneNumber;
+    _nameController.text = ProfileData.user.name;
   }
 
   void _saveUserBtn() {
-    if (nameController.text.isEmpty) {
+    if (_nameController.text.isEmpty) {
       Snacks.alert(context, 'Name must be not empty');
       return;
     }
 
-    ProfileData.user.name = nameController.text;
-    profileBloc.add(UpdateUserEvent(
+    ProfileData.user.name = _nameController.text;
+    _profileBloc.add(UpdateUserEvent(
         id: ProfileData.user.id,
         name: ProfileData.user.name
     ));
   }
 
   void _updateUserBtn() {
-    profileBloc.add(UpdateUserEvent(
+    _profileBloc.add(UpdateUserEvent(
         id: ProfileData.user.id,
         name: ProfileData.user.name
     ));
   }
 
   void _deleteUserBtn() {
-    profileBloc.add(DeleteUserEvent(
+    _profileBloc.add(DeleteUserEvent(
         id: ProfileData.user.id
     ));
   }
 
   void _logoutUserBtn() {
-    profileBloc.add(LogoutEvent());
+    _profileBloc.add(LogoutEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(
-      bloc: profileBloc,
+      bloc: _profileBloc,
       builder: (context, state) {
         if (state is SavingProfileState) {
           return Scaffold(
@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: nameController,
+                                        controller: _nameController,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Name', 'Enter name to change', Icons.account_circle_outlined)
                                     )),
@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: phoneNumberController,
+                                        controller: _phoneNumberController,
                                         enabled: false,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Phone Number', 'Enter phone number to change', Icons.phone)
@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: nameController,
+                                        controller: _nameController,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Name', 'Enter name to change', Icons.account_circle_outlined)
                                     )),
@@ -157,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: phoneNumberController,
+                                        controller: _phoneNumberController,
                                         enabled: false,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Phone Number', 'Enter phone number to change', Icons.phone)
@@ -211,7 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: nameController,
+                                        controller: _nameController,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Name', 'Enter name to change', Icons.account_circle_outlined)
                                     )),
@@ -219,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: phoneNumberController,
+                                        controller: _phoneNumberController,
                                         enabled: false,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Phone Number', 'Enter phone number to change', Icons.phone)
@@ -273,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: nameController,
+                                        controller: _nameController,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Name', 'Enter name to change', Icons.account_circle_outlined)
                                     )),
@@ -281,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     child: TextField(
-                                        controller: phoneNumberController,
+                                        controller: _phoneNumberController,
                                         enabled: false,
                                         style: const TextStyle(fontSize: 18),
                                         decoration: InputDecorations.getOrangeDecoration('Phone Number', 'Enter phone number to change', Icons.phone)

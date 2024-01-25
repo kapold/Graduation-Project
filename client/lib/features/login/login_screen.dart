@@ -20,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final loginBloc = LoginBloc();
+  final _loginBloc = LoginBloc();
   TextEditingController phoneNumberController = TextEditingController(),
       passwordController = TextEditingController();
   bool passwordHidden = true;
@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    loginBloc.add(ProcessLoginEvent(
+    _loginBloc.add(ProcessLoginEvent(
         phoneNumber: phoneNumber,
         password: password
     ));
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
-      bloc: loginBloc,
+      bloc: _loginBloc,
       builder: (context, state) {
         if (state is CommonLoginState || state is FailedLoginState) {
           return Scaffold(

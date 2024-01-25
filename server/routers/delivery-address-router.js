@@ -7,6 +7,8 @@ module.exports = () => {
 
     router
         .route('/')
+        .get(deliveryAddressController.getByUserId)
+        .post(deliveryAddressController.addAddress)
         .put(deliveryAddressController.updateAddressById)
         .delete(deliveryAddressController.deleteAddressById)
         .all((req, res, next) => res.error(errors.methodNotAllowed));

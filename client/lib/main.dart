@@ -1,3 +1,4 @@
+import 'package:client/features/delivery_addresses/delivery_addresses_screen.dart';
 import 'package:client/features/menu/bloc/menu_bloc.dart';
 import 'package:client/features/welcome/welcome_screen.dart';
 import 'package:client/repositories/user_repository.dart';
@@ -65,7 +66,8 @@ class PizzaApp extends StatelessWidget {
           '/welcome': (context) => const WelcomeScreen(),
           '/login': (context) => const LoginScreen(),
           '/registration': (context) => const RegistrationScreen(),
-          '/home': (context) => const HomeScreen()
+          '/home': (context) => const HomeScreen(),
+          '/addresses': (context) => const DeliveryAddressesScreen()
         },
         theme: themeData,
         debugShowCheckedModeBanner: false

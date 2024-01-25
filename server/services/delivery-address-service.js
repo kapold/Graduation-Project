@@ -10,6 +10,32 @@ module.exports = {
         return deliveryAddress;
     },
 
+    addAddress: async (addressData) => {
+        const { userId, address } = addressData;
+
+        if (!userId || !address) {
+            throw errors.invalidInput('userId and address are required');
+        }
+
+        const newAddress = await DeliveryAddress.create({
+            userId: parseInt(userId),
+            address: address,
+        });
+        return newAddress;
+    },
+
+    getByUserId: async (addressData) => {
+        const {userId} = addressData;
+        const deliveryAddresses = await DeliveryAddress.findAll({
+            where: { userId: parseInt(userId) }
+        });
+
+        if (!deliveryAddresses || deliveryAddresses.length === 0) {
+            throw errors.entityNotFound;
+        }
+        return deliveryAddresses;
+    },
+
     updateAddressById: async (addressData) => {
         const deliveryAddress = await DeliveryAddress.findByPk(parseInt(addressData.id));
         if (!deliveryAddress) {
