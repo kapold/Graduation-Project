@@ -1,8 +1,9 @@
-import 'package:client/widgets/text_style_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../styles/app_colors.dart';
+import '../styles/ts.dart';
 import '../utils/profile_data.dart';
-import 'button_style_widget.dart';
+import 'button_style.dart';
 
 class AppWidgets {
   static Container getUnderbuttonText(String text, double width, double height) {
@@ -10,7 +11,7 @@ class AppWidgets {
       width: width,
       height: height,
       decoration: const BoxDecoration(
-        color: Colors.deepOrange,
+        color: AppColors.deepOrange,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(8),
           bottomRight: Radius.circular(8),
@@ -21,7 +22,7 @@ class AppWidgets {
           const SizedBox(width: 22),
           Text(
             text,
-            style: const TextStyle(color: Colors.white),
+            style: TS.getOpenSans(12, FontWeight.w500, AppColors.white),
           )
         ],
       ),
@@ -40,17 +41,17 @@ class AppWidgets {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Bonus coins',
-                  style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 18),
+                  'Бонусные баллы',
+                  style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
                 ),
                 Text(
                   '${ProfileData.user.coins} ©',
-                  style: TextStyles.getTextStyle('Poppins', FontWeight.w700, 18),
+                  style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
                 ),
               ],
             ),
           ),
-          AppWidgets.getUnderbuttonText('Collect and spend on free pizza!', 340, 24),
+          AppWidgets.getUnderbuttonText('Собирайте и тратьте на бесплатную пиццу!', 370, 24),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
@@ -61,14 +62,14 @@ class AppWidgets {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Delivery addresses',
-                  style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 18),
+                  'Адреса доставки',
+                  style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
                 ),
                 Image.asset('assets/icons/address.png',),
               ],
             ),
           ),
-          AppWidgets.getUnderbuttonText('Tap to add addresses to delivery.', 340, 24),
+          AppWidgets.getUnderbuttonText('Нажмите, чтобы добавить адреса для доставки', 370, 24),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {},
@@ -77,14 +78,14 @@ class AppWidgets {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Order history',
-                  style: TextStyles.getTextStyle('Poppins', FontWeight.w500, 18),
+                  'История заказов',
+                  style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
                 ),
                 Image.asset('assets/icons/history.png',),
               ],
             ),
           ),
-          AppWidgets.getUnderbuttonText('History for reorder your pizza.', 340, 24),
+          AppWidgets.getUnderbuttonText('История для повторного заказа', 370, 24),
         ],
       ),
     );

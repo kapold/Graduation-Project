@@ -15,7 +15,7 @@ module.exports = {
     },
 
     addProduct: async (productData) => {
-        const { name, description, price, size, isVegetarian, toppings, imageUrl, isAvailable } = productData;
+        const { name, description, price, calories, protein, fats, carbohydrates, weight, imageUrl, isAvailable } = productData;
 
         if (!name || !price) {
             throw errors.invalidInput('Name and price are required');
@@ -25,9 +25,11 @@ module.exports = {
             name,
             description,
             price,
-            size,
-            isVegetarian,
-            toppings,
+            calories,
+            protein,
+            fats,
+            carbohydrates,
+            weight,
             imageUrl,
             isAvailable
         });
@@ -40,7 +42,7 @@ module.exports = {
             throw errors.entityNotFound;
         }
 
-        const {name, description, price, size, isVegetarian, toppings, imageUrl, isAvailable} = productData;
+        const { name, description, price, calories, protein, fats, carbohydrates, weight, imageUrl, isAvailable } = productData;
 
         if (name) {
             product.name = name;
@@ -51,14 +53,20 @@ module.exports = {
         if (price) {
             product.price = price;
         }
-        if (size) {
-            product.size = size;
+        if (calories) {
+            product.calories = calories;
         }
-        if (isVegetarian) {
-            product.isVegetarian = isVegetarian;
+        if (protein) {
+            product.protein = protein;
         }
-        if (toppings) {
-            product.toppings = toppings;
+        if (fats) {
+            product.fats = fats;
+        }
+        if (carbohydrates) {
+            product.carbohydrates = carbohydrates;
+        }
+        if (weight) {
+            product.weight = weight;
         }
         if (imageUrl) {
             product.imageUrl = imageUrl;

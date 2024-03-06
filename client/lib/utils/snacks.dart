@@ -6,23 +6,23 @@ class Snacks {
     IconSnackBar.show(
       context: context,
       snackBarType: SnackBarType.save,
-      label: label
+      label: label,
     );
   }
 
   static void failed(BuildContext context, String label) {
     IconSnackBar.show(
-        context: context,
-        snackBarType: SnackBarType.fail,
-        label: label
+      context: context,
+      snackBarType: SnackBarType.fail,
+      label: label,
     );
   }
 
   static void alert(BuildContext context, String label) {
     IconSnackBar.show(
-        context: context,
-        snackBarType: SnackBarType.alert,
-        label: label
+      context: context,
+      snackBarType: SnackBarType.alert,
+      label: label,
     );
   }
 }

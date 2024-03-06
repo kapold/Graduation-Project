@@ -15,3 +15,9 @@ class FailedLoadedState extends MenuState {
 
   FailedLoadedState(this.errorMessage);
 }
+
+class SearchResultState extends MenuState {
+  final List<Product> products;
+
+  SearchResultState(this.products);
+}

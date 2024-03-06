@@ -1,8 +1,9 @@
+import 'package:client/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../widgets/button_style_widget.dart';
-import '../../widgets/text_style_widget.dart';
+import '../../styles/ts.dart';
+import '../../widgets/button_style.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -19,16 +20,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           child: SingleChildScrollView(
             child: Column(
                 children: [
-                  const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
                       child: Text(
                           'Pizzas',
-                          style: TextStyle(
-                              fontFamily: 'Poiret',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 56,
-                              color: Colors.deepOrange
-                          )
+                          style: TS.getPoiret(56, FontWeight.w700, AppColors.deepOrange),
                       )
                   ),
                   Padding(
@@ -43,16 +39,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onPressed: () {
                         Navigator.pushNamed(context, '/login');
                       },
-                      style: ButtonStyles.getCutedOrangeButtonStyle(),
-                      child: const Text('Sign In')
+                      style: ButtonStyles.getCutedOrangeButtonStyle(120, 20),
+                      child: Text(
+                        'Вход',
+                        style: TS.getOpenSans(20, FontWeight.w600, AppColors.white),
+                      ),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/registration');
                       },
-                      style: ButtonStyles.getCutedWhiteButtonStyle(),
-                      child: const Text('Sign Up')
+                      style: ButtonStyles.getCutedWhiteButtonStyle(80, 20),
+                    child: Text(
+                      'Регистрация',
+                      style: TS.getOpenSans(20, FontWeight.w600, AppColors.deepOrange),
+                    ),
                   )
                 ]
             )

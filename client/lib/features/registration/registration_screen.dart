@@ -1,12 +1,14 @@
+import 'package:client/styles/app_colors.dart';
+import 'package:client/styles/ts.dart';
 import 'package:client/utils/snacks.dart';
-import 'package:client/widgets/loader_widget.dart';
+import 'package:client/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../widgets/app_bar_style_widget.dart';
-import '../../widgets/button_style_widget.dart';
-import '../../widgets/input_decoration_widget.dart';
+import '../../widgets/app_bar_style.dart';
+import '../../widgets/button_style.dart';
+import '../../widgets/input_decoration.dart';
 import 'bloc/registration_bloc.dart';
 import 'bloc/registration_event.dart';
 import 'bloc/registration_state.dart';
@@ -32,11 +34,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         name = _nameController.text;
 
     if (password != repeatPassword) {
-      Snacks.failed(context, 'Password mismatch!');
+      Snacks.failed(context, 'Пароли не совпадают!');
       return;
     }
     if (password.length < 8 || password.length > 16) {
-      Snacks.failed(context, 'Password mismatch!');
+      Snacks.failed(context, 'Длина пароля должна быть 8-16 символов!');
       return;
     }
 
@@ -56,7 +58,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         builder: (context, state) {
           if (state is CommonRegistrationState || state is FailedRegistrationState) {
             return Scaffold(
-                appBar: AppBars.getCommonAppBar('Registration', context),
+                appBar: AppBars.getCommonAppBar('Регистрация', context),
                 body: Center(
                     child: SingleChildScrollView(
                         child: Column(
@@ -70,18 +72,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 40),
                                   child: TextField(
                                       controller: _phoneNumberController,
-                                      cursorColor: Colors.deepOrangeAccent,
+                                      cursorColor: AppColors.deepOrange,
                                       style: const TextStyle(fontSize: 18),
-                                      decoration: InputDecorations.getOrangeDecoration('Phone Number', 'Enter phone number', Icons.phone)
+                                      decoration: InputDecorations.getOrangeDecoration('Номер телефона', '+375xxxxxxxxx', Icons.phone)
                                   )),
                               const SizedBox(height: 20),
                               Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 40),
                                   child: TextField(
                                       controller: _nameController,
-                                      cursorColor: Colors.deepOrangeAccent,
+                                      cursorColor: AppColors.deepOrange,
                                       style: const TextStyle(fontSize: 18),
-                                      decoration: InputDecorations.getOrangeDecoration('Name', 'Enter name', Icons.account_circle_outlined)
+                                      decoration: InputDecorations.getOrangeDecoration('Имя', '', Icons.account_circle_outlined)
                                   )),
                               const SizedBox(height: 20),
                               Padding(
@@ -89,9 +91,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   child: TextField(
                                       controller: _passwordController,
                                       obscureText: true,
-                                      cursorColor: Colors.deepOrangeAccent,
+                                      cursorColor: AppColors.deepOrange,
                                       style: const TextStyle(fontSize: 18),
-                                      decoration: InputDecorations.getOrangeDecoration('Password', 'Enter password', Icons.password_outlined, )
+                                      decoration: InputDecorations.getOrangeDecoration('Пароль', '', Icons.password_outlined, )
                                   )),
                               const SizedBox(height: 20),
                               Padding(
@@ -100,15 +102,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       controller: _repeatPasswordController,
                                       obscureText: true,
                                       style: const TextStyle(fontSize: 18),
-                                      decoration: InputDecorations.getOrangeDecoration('Repeat Password', 'Repeat password', Icons.password_outlined)
+                                      decoration: InputDecorations.getOrangeDecoration('Повтор пароля', '', Icons.password_outlined)
                                   )),
                               const SizedBox(height: 40),
                               ElevatedButton(
                                   onPressed: () {
                                     _onRegistrationBtn();
                                   },
-                                  style: ButtonStyles.getCommonOrangeButtonStyle(100, 16),
-                                  child: const Text('Sign Up')
+                                  style: ButtonStyles.getCommonOrangeButtonStyle(60, 16),
+                                  child: Text(
+                                    'Зарегистрироваться',
+                                    style: TS.getOpenSans(20, FontWeight.w500, AppColors.white),
+                                  ),
                               )
                             ]
                         )
@@ -118,26 +123,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           }
           else if (state is RegistrationProcessState) {
             return Scaffold(
-                appBar: AppBars.getCommonAppBar('Registration', context),
-                body: Loaders.getDotsTriangle()
+                appBar: AppBars.getCommonAppBar('Регистрация', context),
+                body: Loaders.getDotsTriangle(60)
             );
           }
           else if (state is SuccessfulRegistrationState) {
             return Scaffold(
-                appBar: AppBars.getCommonAppBar('Registration', context),
-                body: const Center(child: Text('Successful Registration state'))
+                appBar: AppBars.getCommonAppBar('Регистрация', context),
+                body: const Center(child: Text('Регистрация успешно выполнена'))
             );
           }
           else {
             return const Scaffold(
-                body: Center(child: Text('Error occured'))
+                body: Center(child: Text('Произошла ошибка'))
             );
           }
         },
         listener: (context, state) {
           if (state is SuccessfulRegistrationState) {
             Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-            Snacks.success(context, 'Successfully registered!');
+            Snacks.success(context, 'Регистрация успешно выполнена!');
           }
           else if (state is FailedRegistrationState) {
             Snacks.failed(context, state.errorMessage);

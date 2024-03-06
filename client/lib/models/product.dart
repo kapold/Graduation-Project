@@ -5,9 +5,11 @@ class Product extends Equatable {
   String name;
   String description;
   double price;
-  String size;
-  bool isVegetarian;
-  List<String> toppings;
+  double calories;
+  double protein;
+  double fats;
+  double carbohydrates;
+  int weight;
   String imageUrl;
   bool isAvailable;
 
@@ -16,9 +18,11 @@ class Product extends Equatable {
     required this.name,
     required this.description,
     required this.price,
-    required this.size,
-    required this.isVegetarian,
-    required this.toppings,
+    required this.calories,
+    required this.protein,
+    required this.fats,
+    required this.carbohydrates,
+    required this.weight,
     required this.imageUrl,
     required this.isAvailable,
   });
@@ -29,9 +33,11 @@ class Product extends Equatable {
       name: json['name'],
       description: json['description'],
       price: (json['price'] as num).toDouble(),
-      size: json['size'],
-      isVegetarian: json['isVegetarian'],
-      toppings: json['toppings'] != null ? List<String>.from(json['toppings']) : [],
+      calories: (json['calories'] as num).toDouble(),
+      protein: (json['protein'] as num).toDouble(),
+      fats: (json['fats'] as num).toDouble(),
+      carbohydrates: (json['carbohydrates'] as num).toDouble(),
+      weight: json['weight'],
       imageUrl: json['imageUrl'],
       isAvailable: json['isAvailable'],
     );
@@ -43,12 +49,19 @@ class Product extends Equatable {
       'name': name,
       'description': description,
       'price': price,
-      'size': size,
-      'isVegetarian': isVegetarian,
-      'toppings': toppings,
+      'calories': calories,
+      'protein': protein,
+      'fats': fats,
+      'carbohydrates': carbohydrates,
+      'weight': weight,
       'imageUrl': imageUrl,
       'isAvailable': isAvailable,
     };
+  }
+
+  @override
+  String toString() {
+    return 'Product {price: $price, weight: $weight}';
   }
 
   @override

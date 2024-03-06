@@ -13,6 +13,21 @@ module.exports = (Sequelize, sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        size: {
+            type: Sequelize.ENUM,
+            values: ['small', 'medium', 'large'],
+            allowNull: true
+        },
+        isVegetarian: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        toppings: {
+            type: Sequelize.ARRAY(Sequelize.STRING),
+            allowNull: true,
+            defaultValue: null
+        },
         quantity: {
             type: Sequelize.INTEGER,
             allowNull: false

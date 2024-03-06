@@ -18,20 +18,25 @@ module.exports = (Sequelize, sequelize) => {
             type: Sequelize.FLOAT,
             allowNull: false
         },
-        size: {
-            type: Sequelize.ENUM,
-            values: ['small', 'medium', 'large'],
-            allowNull: true
+        calories: {
+            type: Sequelize.FLOAT,
+            allowNull: false
         },
-        isVegetarian: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
+        protein: {
+            type: Sequelize.FLOAT,
+            allowNull: false
         },
-        toppings: {
-            type: Sequelize.ARRAY(Sequelize.STRING),
-            allowNull: true,
-            defaultValue: null
+        fats: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        carbohydrates: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        weight: {
+            type: Sequelize.INTEGER,
+            allowNull: false
         },
         imageUrl: {
             type: Sequelize.STRING,

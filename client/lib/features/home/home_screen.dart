@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../styles/app_colors.dart';
 import '../orders/orders_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,26 +46,27 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         body: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
-            iconSize: 24,
-            backgroundColor: Colors.white,
-            activeColor: Colors.deepOrange,
-            inactiveColor: Colors.grey,
+            iconSize: 30,
+            height: 60,
+            backgroundColor: AppColors.white,
+            activeColor: AppColors.deepOrange,
+            inactiveColor: AppColors.grey,
             items: const [
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/icons/menu_icon.png')),
-                label: 'Menu',
+                label: 'Меню',
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/icons/profile_icon.png')),
-                label: 'Profile',
+                label: 'Профиль',
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/icons/orders_icon.png')),
-                label: 'Orders',
+                label: 'Заказы',
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/icons/cart_icon.png')),
-                label: 'Cart',
+                label: 'Корзина',
               )
             ]
           ),

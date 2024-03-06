@@ -11,6 +11,7 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   _OrdersScreenState(this.externalContext);
+
   BuildContext externalContext;
 
   List<String> orders = [];
@@ -18,13 +19,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return const SafeArea(
-        child: Scaffold(
-          body: Expanded(
-              child: Center(
-                  child: Text('No active deliveries')
-              )
-          )
-        )
+      child: Scaffold(
+        body: SafeArea(
+          child: Expanded(
+            child: Center(
+              child: Text('Нет активных заказов'),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

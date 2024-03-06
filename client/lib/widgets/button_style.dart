@@ -1,87 +1,89 @@
-import 'package:client/widgets/text_style_widget.dart';
+import 'package:client/styles/ts.dart';
 import 'package:flutter/material.dart';
 
+import '../styles/app_colors.dart';
+
 class ButtonStyles {
-  static ButtonStyle getCutedOrangeButtonStyle() {
+  static ButtonStyle getCutedOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepOrange,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.deepOrange,
+        foregroundColor: AppColors.white,
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
-        side: const BorderSide(color: Colors.deepOrange, width: 1),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+        side: const BorderSide(color: AppColors.deepOrange, width: 1),
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomRight: Radius.circular(0), bottomLeft: Radius.circular(0))),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
-  static ButtonStyle getCutedWhiteButtonStyle() {
+  static ButtonStyle getCutedWhiteButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.deepOrange,
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.deepOrange,
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 116, vertical: 20),
-        side: const BorderSide(color: Colors.deepOrange, width: 1),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
+        side: const BorderSide(color: AppColors.deepOrange, width: 1),
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(0), topRight: Radius.circular(0), bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20))),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getCommonOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepOrange,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.deepOrange,
+        foregroundColor: AppColors.white,
         elevation: 0,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getOutlinedRedButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.red,
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.darkerRed,
         elevation: 0,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30)), side: BorderSide(color: Colors.red)),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30)), side: BorderSide(color: AppColors.darkerRed)),
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getOutlinedOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.deepOrange,
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.deepOrange,
         elevation: 0,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30)), side: BorderSide(color: Colors.deepOrange)),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30)), side: BorderSide(color: AppColors.deepOrange)),
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getSquaredOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepOrange,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.deepOrange,
+        foregroundColor: AppColors.white,
         elevation: 0,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getSquaredOutlinedOrangeButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.deepOrange,
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.deepOrange,
         elevation: 0,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: Colors.deepOrange)),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: AppColors.deepOrange)),
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getSquaredOutlinedRedButtonStyle(double horizontalPadding, double verticalPadding) {
     return ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.red,
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.darkerRed,
         elevation: 0,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: Colors.red)),
-        textStyle: TextStyles.getTextStyle('Poppins', FontWeight.w500, 20));
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)), side: BorderSide(color: AppColors.darkerRed)),
+        textStyle: TS.getPoppins(20, FontWeight.w500, AppColors.black));
   }
 
   static ButtonStyle getOrangeOutlinedBox(double horizontalPadding, double verticalPadding) {
@@ -92,11 +94,11 @@ class ButtonStyles {
           topLeft: Radius.circular(8),
           topRight: Radius.circular(8),
         ),
-        side: BorderSide(color: Colors.deepOrange),
+        side: BorderSide(color: AppColors.deepOrange),
       ),
       elevation: 0,
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black87,
+      backgroundColor: AppColors.white,
+      foregroundColor: AppColors.black,
     );
   }
 }
