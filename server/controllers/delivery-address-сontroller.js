@@ -35,7 +35,7 @@ module.exports = {
 
     deleteAddressById: async (req, res, next) => {
         try {
-            res.json(await deliveryAddressService.deleteAddressById(req.body.id));
+            res.json(await deliveryAddressService.deleteAddressById(req.body));
         } catch (error) {
             next(error);
         }

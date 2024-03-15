@@ -55,12 +55,14 @@ module.exports = {
         return deliveryAddress;
     },
 
-    deleteAddressById: async (id) => {
-        if (!Number.isInteger(id)) {
+    deleteAddressById: async (addressData) => {
+        const { addressId } = addressData;
+        console.log(`GOVNO: ${addressId}`)
+        if (!Number.isInteger(addressId)) {
             throw errors.invalidId;
         }
 
-        const deliveryAddress = await DeliveryAddress.findByPk(id);
+        const deliveryAddress = await DeliveryAddress.findByPk(parseInt(addressId));
         if (!deliveryAddress) {
             throw errors.entityNotFound;
         }
