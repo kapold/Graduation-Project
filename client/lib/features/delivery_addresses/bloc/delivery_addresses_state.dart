@@ -1,14 +1,18 @@
+import '../../../models/delivery_address.dart';
+
 abstract class DeliveryAddressesState {}
 
-class CommonAddressesState extends DeliveryAddressesState {}
+class LoadingAddressesState extends DeliveryAddressesState {}
 
-class AddingAddressState extends DeliveryAddressesState {}
+class SuccessfulAddedAddressesState extends DeliveryAddressesState {}
 
-class DeletingAddressState extends DeliveryAddressesState {}
+class SuccessfulDeletedAddressesState extends DeliveryAddressesState {}
 
-class FetchingAddressesState extends DeliveryAddressesState {}
+class SuccessfulLoadedAddressesState extends DeliveryAddressesState {
+  final List<DeliveryAddress> deliveryAddresses;
 
-class SuccessfulAddressesState extends DeliveryAddressesState {}
+  SuccessfulLoadedAddressesState(this.deliveryAddresses);
+}
 
 class FailedAddressesState extends DeliveryAddressesState {
   final String errorMessage;

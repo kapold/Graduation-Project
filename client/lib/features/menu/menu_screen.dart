@@ -39,8 +39,7 @@ class _MenuScreenState extends State<MenuScreen> {
   void _onSearchChanged() {
     if (_searchController.text.isNotEmpty) {
       _menuBloc.add(SearchProductsEvent(_menuProducts, _searchController.text));
-    }
-    else {
+    } else {
       _menuBloc.add(GetMenuEvent());
     }
   }
@@ -63,10 +62,11 @@ class _MenuScreenState extends State<MenuScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextField(
                           controller: _searchController,
-                          style: TS.getPoppins(
+                          style: TS.getOpenSans(
                               18, FontWeight.w500, AppColors.black),
                           cursorColor: AppColors.deepOrange,
-                          decoration: InputDecorations.getSearch('Поиск', '', Icons.search),
+                          decoration: InputDecorations.getSearch(
+                              'Поиск', '', Icons.search),
                         ),
                       ),
                       const SizedBox(height: 300),
@@ -88,9 +88,10 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: TextField(
                       controller: _searchController,
                       style:
-                          TS.getPoppins(18, FontWeight.w500, AppColors.black),
+                          TS.getOpenSans(18, FontWeight.w500, AppColors.black),
                       cursorColor: AppColors.deepOrange,
-                      decoration: InputDecorations.getSearch('Поиск', '', Icons.search),
+                      decoration:
+                          InputDecorations.getSearch('Поиск', '', Icons.search),
                     ),
                   ),
                   _searchList.isNotEmpty
@@ -126,10 +127,11 @@ class _MenuScreenState extends State<MenuScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextField(
                           controller: _searchController,
-                          style: TS.getPoppins(
+                          style: TS.getOpenSans(
                               18, FontWeight.w500, AppColors.black),
                           cursorColor: AppColors.deepOrange,
-                          decoration: InputDecorations.getSearch('Поиск', '', Icons.search),
+                          decoration: InputDecorations.getSearch(
+                              'Поиск', '', Icons.search),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -152,10 +154,11 @@ class _MenuScreenState extends State<MenuScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextField(
                           controller: _searchController,
-                          style: TS.getPoppins(
+                          style: TS.getOpenSans(
                               18, FontWeight.w500, AppColors.black),
                           cursorColor: AppColors.deepOrange,
-                          decoration: InputDecorations.getSearch('Поиск', '', Icons.search),
+                          decoration: InputDecorations.getSearch(
+                              'Поиск', '', Icons.search),
                         ),
                       ),
                       Container(

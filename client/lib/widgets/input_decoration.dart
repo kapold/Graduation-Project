@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../styles/app_colors.dart';
 
 class InputDecorations {
-  static InputDecoration getOrangeDecoration(String label, String hint, IconData icon) {
+  static InputDecoration getOrangeDecoration(
+      String label, String hint, IconData icon) {
     return InputDecoration(
       contentPadding:
           const EdgeInsets.only(left: 48, right: 20, top: 20, bottom: 20),
@@ -21,7 +22,7 @@ class InputDecorations {
   static InputDecoration getSearch(String label, String hint, IconData icon) {
     return InputDecoration(
       contentPadding:
-      const EdgeInsets.only(left: 48, right: 20, top: 20, bottom: 20),
+          const EdgeInsets.only(left: 48, right: 20, top: 20, bottom: 20),
       border: InputBorder.none,
       prefixIcon: Icon(icon),
       labelStyle: TS.getOpenSans(18, FontWeight.w500, AppColors.deepOrange),

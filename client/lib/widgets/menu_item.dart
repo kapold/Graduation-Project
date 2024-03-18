@@ -1,5 +1,6 @@
 import 'package:client/features/menu_item/menu_item_screen.dart';
 import 'package:client/models/product.dart';
+import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
 import 'package:client/styles/ts.dart';
 import 'package:client/widgets/loader.dart';
@@ -94,14 +95,89 @@ class MenuItems {
     );
   }
 
-  static Widget getItemScreen() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-
-        ],
-      ),
-    );
+  static Widget getToppingItem(Topping topping) {
+    if (topping.isSelected) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          padding: const EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                topping.name,
+                style: TS.getOpenSans(16, FontWeight.w500, AppColors.black),
+              ),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.whiteOrange,
+                    ),
+                    child: Text(
+                      '${topping.price} р.',
+                      style: TS.getOpenSans(14, FontWeight.w500, AppColors.deepOrange),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Image.asset(
+                    'assets/icons/checked.png',
+                    scale: 3,
+                    color: AppColors.deepOrange,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          padding: const EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                topping.name,
+                style: TS.getOpenSans(16, FontWeight.w500, AppColors.black),
+              ),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.whiteOrange,
+                    ),
+                    child: Text(
+                      '${topping.price} р.',
+                      style: TS.getOpenSans(14, FontWeight.w500, AppColors.deepOrange),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Image.asset(
+                    'assets/icons/unckecked.png',
+                    scale: 3,
+                    color: AppColors.grey,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 }

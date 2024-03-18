@@ -1,3 +1,4 @@
+import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
 import 'package:client/utils/logs.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import '../../models/product.dart';
 import '../../styles/ts.dart';
 import '../../widgets/app_bar_style.dart';
+import '../../widgets/menu_item.dart';
 
 class MenuItemScreen extends StatefulWidget {
   final Product product;
@@ -17,9 +19,21 @@ class MenuItemScreen extends StatefulWidget {
 }
 
 class _MenuItemScreenState extends State<MenuItemScreen> {
-  late Product  _productInfo;
+  late Product _productInfo;
+  late String _confInfo = '';
   final List<String> _pizzaSizes = ['Маленькая', 'Средняя', 'Большая'];
   final List<String> _doughSizes = ['Традиционное', 'Тонкое'];
+  final List<Topping> _toppings = [
+    Topping(id: 1, name: 'Сырный бортик', price: 5.49),
+    Topping(id: 2, name: 'Моцарелла', price: 3.49),
+    Topping(id: 3, name: 'Цыпленок', price: 2.99),
+    Topping(id: 4, name: 'Ветчина', price: 2.99),
+    Topping(id: 5, name: 'Шампиньоны', price: 2.49),
+    Topping(id: 6, name: 'Томаты', price: 2.99),
+    Topping(id: 7, name: 'Брынза', price: 2.99),
+    Topping(id: 8, name: 'Ананасы', price: 2.99),
+    Topping(id: 9, name: 'Бекон', price: 3.49),
+  ];
   int _pizzaSizeIndex = 0, _doughSizeIndex = 0;
 
   @override
@@ -36,8 +50,9 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
       carbohydrates: widget.product.carbohydrates,
       weight: widget.product.weight,
       price: widget.product.price,
-      isAvailable:  widget.product.isAvailable,
+      isAvailable: widget.product.isAvailable,
     );
+    _confInfo = 'Маленькая 25 см, традиционное тесто, ${_productInfo.weight} г';
   }
 
   void _addToCart() {
@@ -45,22 +60,43 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
   }
 
   void _updatePageInfo() {
+    _productInfo.price = widget.product.price;
+
     String size = _pizzaSizes[_pizzaSizeIndex];
+    String dough = _doughSizes[_doughSizeIndex];
+    String sizeNumber = '';
     if (size == 'Маленькая') {
-      Logs.infoLog('widget.product.price: ${widget.product.price}');
       _productInfo.price = widget.product.price;
       _productInfo.weight = widget.product.weight;
     }
-    if (size == 'Средняя') {
-      Logs.infoLog('widget.product.price: ${widget.product.price}');
+    else if (size == 'Средняя') {
       _productInfo.price = widget.product.price + 9.00;
       _productInfo.weight = widget.product.weight + 200;
     }
-    if (size == 'Большая') {
-      Logs.infoLog('widget.product.price: ${widget.product.price}');
+    else if (size == 'Большая') {
       _productInfo.price = widget.product.price + 15.00;
       _productInfo.weight = widget.product.weight + 400;
     }
+
+    switch (size) {
+      case 'Маленькая':
+        sizeNumber = '25 см';
+        break;
+      case 'Средняя':
+        sizeNumber = '30 см';
+        break;
+      case 'Большая':
+        sizeNumber = '35 см';
+        break;
+    }
+
+    for(var topping in _toppings) {
+      if (topping.isSelected) {
+        _productInfo.price = _productInfo.price + topping.price;
+      }
+    }
+
+    _confInfo = '$size $sizeNumber, $dough тесто, ${_productInfo.weight} г';
     Logs.infoLog(_productInfo.toString());
     setState(() {});
   }
@@ -174,6 +210,10 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     );
   }
 
+  void _selectTopping(Topping topping) {
+    topping.isSelected = !topping.isSelected;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,6 +247,14 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                           )
                         ],
                       ),
+                      SizedBox(
+                        width: 500,
+                        child: Text(
+                          _confInfo,
+                          style: TS.getOpenSans(
+                              16, FontWeight.w600, AppColors.grey),
+                        ),
+                      ),
                       Text(
                         widget.product.description,
                         style: TS.getOpenSans(
@@ -234,6 +282,21 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                         onToggle: (index) {
                           _doughSizeIndex = index!;
                           _updatePageInfo();
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _toppings.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              _selectTopping(_toppings[index]);
+                              _updatePageInfo();
+                            },
+                            child: MenuItems.getToppingItem(_toppings[index]),
+                          );
                         },
                       ),
                     ],

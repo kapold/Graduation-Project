@@ -1,9 +1,11 @@
 import 'package:client/features/delivery_addresses/bloc/delivery_addresses_event.dart';
 import 'package:client/features/delivery_addresses/bloc/delivery_addresses_state.dart';
+import 'package:client/models/delivery_address.dart';
+import 'package:client/repositories/address_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeliveryAddressesBloc extends Bloc<DeliveryAddressesEvent, DeliveryAddressesState> {
-  DeliveryAddressesBloc() : super(CommonAddressesState()) {
+  DeliveryAddressesBloc() : super(LoadingAddressesState()) {
     on<GetAddressesEvent>(_getAddressesHandler);
     on<AddAddressEvent>(_addAddresseHandler);
     on<DeleteAddressEvent>(_deleteAddressesHandler);
@@ -11,11 +13,11 @@ class DeliveryAddressesBloc extends Bloc<DeliveryAddressesEvent, DeliveryAddress
 
   Future<void> _getAddressesHandler(GetAddressesEvent event, Emitter<DeliveryAddressesState> emit) async {
     try {
-      emit(FetchingAddressesState());
+      emit(LoadingAddressesState());
 
+      List<DeliveryAddress> userAddresses = await AddressRepository.getUserAddresses(event.userId);
 
-
-      emit(SuccessfulAddressesState());
+      emit(SuccessfulLoadedAddressesState(userAddresses));
     }
     catch (error) {
       emit(FailedAddressesState(error.toString()));
@@ -24,11 +26,11 @@ class DeliveryAddressesBloc extends Bloc<DeliveryAddressesEvent, DeliveryAddress
 
   Future<void> _addAddresseHandler(AddAddressEvent event, Emitter<DeliveryAddressesState> emit) async {
     try {
-      emit(AddingAddressState());
+      emit(LoadingAddressesState());
 
+      AddressRepository.addUserAddress(event.userId, event.address);
 
-
-      emit(SuccessfulAddressesState());
+      emit(SuccessfulAddedAddressesState());
     }
     catch (error) {
       emit(FailedAddressesState(error.toString()));
@@ -37,11 +39,11 @@ class DeliveryAddressesBloc extends Bloc<DeliveryAddressesEvent, DeliveryAddress
 
   Future<void> _deleteAddressesHandler(DeleteAddressEvent event, Emitter<DeliveryAddressesState> emit) async {
     try {
-      emit(DeletingAddressState());
+      emit(LoadingAddressesState());
 
+      AddressRepository.deleteUserAddress(event.addressId);
 
-
-      emit(SuccessfulAddressesState());
+      emit(SuccessfulDeletedAddressesState());
     }
     catch (error) {
       emit(FailedAddressesState(error.toString()));
