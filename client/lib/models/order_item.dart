@@ -1,11 +1,24 @@
+import 'package:hive/hive.dart';
+
+part 'order_item.g.dart';
+
+@HiveType(typeId: 0)
 class OrderItem {
-  int id;
-  int orderId;
+  @HiveField(0)
+  int? id;
+  @HiveField(1)
+  int? orderId;
+  @HiveField(2)
   int productId;
+  @HiveField(3)
   String size;
-  bool isVegetarian;
+  @HiveField(4)
+  String dough;
+  @HiveField(5)
   List<String> toppings;
+  @HiveField(6)
   int quantity;
+  @HiveField(7)
   double price;
 
   OrderItem({
@@ -13,7 +26,7 @@ class OrderItem {
     required this.orderId,
     required this.productId,
     required this.size,
-    required this.isVegetarian,
+    required this.dough,
     required this.toppings,
     required this.quantity,
     required this.price,
@@ -25,7 +38,7 @@ class OrderItem {
       orderId: json['orderId'],
       productId: json['productId'],
       size: json['size'],
-      isVegetarian: json['isVegetarian'],
+      dough: json['dough'],
       toppings: List<String>.from(json['toppings']),
       quantity: json['quantity'],
       price: json['price'],
@@ -38,10 +51,24 @@ class OrderItem {
       'orderId': orderId,
       'productId': productId,
       'size': size,
-      'isVegetarian': isVegetarian,
+      'dough': dough,
       'toppings': toppings.map((topping) => topping.toString()).toList(),
       'quantity': quantity,
       'price': price,
     };
+  }
+
+  @override
+  String toString() {
+    return 'OrderItem {'
+        'id: $id, '
+        'orderId: $orderId, '
+        'productId: $productId, '
+        'size: $size, '
+        'dough: $dough, '
+        'toppings: $toppings, '
+        'quantity: $quantity, '
+        'price: $price'
+    '}';
   }
 }

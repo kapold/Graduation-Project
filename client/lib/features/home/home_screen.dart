@@ -2,14 +2,19 @@ import 'package:client/features/cart/cart_screen.dart';
 import 'package:client/features/menu/menu_screen.dart';
 import 'package:client/features/profile/profile_screen.dart';
 import 'package:client/repositories/user_repository.dart';
+import 'package:client/utils/local_db.dart';
 import 'package:client/utils/local_storage.dart';
+import 'package:client/utils/logs.dart';
 import 'package:client/utils/profile_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/order_item.dart';
 import '../../styles/app_colors.dart';
 import '../orders/orders_screen.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> pages;
+  late int cartItemsCount;
 
   @override
   void initState() {
@@ -37,6 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
     String token = await LocalStorage.getToken();
     Response<dynamic> parsedToken = await UserRepository.auth(token);
     ProfileData.user = await UserRepository.getUserById(parsedToken.data['user_id']);
+
+    List<OrderItem> cartItems = await LocalDb().getAllOrderItems();
+    Logs.infoLog('All Order Items:');
+    for(var item in cartItems) {
+      Logs.infoLog('Item: ${item.toString()}');
+    }
+
+    cartItemsCount = (await LocalDb().getAllOrderItems()).length;
   }
 
   @override
@@ -65,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/icons/cart_icon.png')),
                 label: 'Корзина',
-              )
+              ),
             ]
           ),
           tabBuilder: (context, index) {

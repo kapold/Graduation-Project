@@ -1,9 +1,11 @@
+import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/delivery_addresses/delivery_addresses_screen.dart';
 import 'package:client/features/menu/bloc/menu_bloc.dart';
 import 'package:client/features/settings/settings_screen.dart';
 import 'package:client/features/welcome/welcome_screen.dart';
 import 'package:client/repositories/user_repository.dart';
 import 'package:client/styles/app_theme.dart';
+import 'package:client/utils/local_db.dart';
 import 'package:client/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +20,7 @@ import 'features/registration/registration_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  LocalDb().init();
   ThemeData themeData = (await LocalStorage.getTheme() == 'light')
       ? AppTheme.getLightTheme()
       : AppTheme.getDarkTheme();
@@ -36,7 +39,8 @@ Future<void> main() async {
           BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
           BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
           BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
-          BlocProvider<MenuBloc>(create: (_) => MenuBloc())
+          BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
+          BlocProvider<CartBloc>(create: (_) => CartBloc()),
         ],
         child: PizzaApp(initialRoute, themeData)
     ));
@@ -46,7 +50,8 @@ Future<void> main() async {
           BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
           BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
           BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
-          BlocProvider<MenuBloc>(create: (_) => MenuBloc())
+          BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
+          BlocProvider<CartBloc>(create: (_) => CartBloc()),
         ],
         child: PizzaApp(initialRoute, themeData)
     ));

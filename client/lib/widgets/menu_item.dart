@@ -20,20 +20,23 @@ class MenuItems {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              product.imageUrl,
-              width: 140,
-              height: 140,
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                } else {
-                  return Center(
-                    child: Loaders.getAdaptiveLoader(),
-                  );
-                }
-              },
+            Hero(
+              tag: 'productImage#${product.id}',
+              child: Image.network(
+                product.imageUrl,
+                width: 140,
+                height: 140,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return Center(
+                      child: Loaders.getAdaptiveLoader(),
+                    );
+                  }
+                },
+              ),
             ),
             const SizedBox(width: 20),
             Column(
@@ -42,11 +45,14 @@ class MenuItems {
               children: [
                 SizedBox(
                   width: 240,
-                  child: Text(
-                    product.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
+                  child: Hero(
+                    tag: 'productName#${product.id}',
+                    child: Text(
+                      product.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 4),

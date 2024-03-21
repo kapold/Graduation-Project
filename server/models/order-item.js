@@ -18,10 +18,10 @@ module.exports = (Sequelize, sequelize) => {
             values: ['small', 'medium', 'large'],
             allowNull: true
         },
-        isVegetarian: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
+        dough: {
+            type: Sequelize.ENUM,
+            values: ['traditional', 'thin'],
+            allowNull: true
         },
         toppings: {
             type: Sequelize.ARRAY(Sequelize.STRING),

@@ -1,6 +1,9 @@
+import 'package:client/models/order_item.dart';
 import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
+import 'package:client/utils/local_db.dart';
 import 'package:client/utils/logs.dart';
+import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -34,11 +37,16 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     Topping(id: 8, name: 'Ананасы', price: 2.99),
     Topping(id: 9, name: 'Бекон', price: 3.49),
   ];
+  String size = '25 см', dough = 'Традиционное';
   int _pizzaSizeIndex = 0, _doughSizeIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    _getProductInfo();
+  }
+
+  Future<void> _getProductInfo() async {
     _productInfo = Product(
       id: widget.product.id,
       name: widget.product.name,
@@ -55,15 +63,44 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     _confInfo = 'Маленькая 25 см, традиционное тесто, ${_productInfo.weight} г';
   }
 
-  void _addToCart() {
+  String _getSize(String size) {
+    if (size == 'Маленькая') {
+      return 'small';
+    }
+    else if (size == 'Средняя') {
+      return 'medium';
+    }
+    else if (size == 'Большая') {
+      return 'large';
+    }
+    return size;
+  }
+
+  String _getDough(String dough) {
+    if (dough == 'Традиционное') {
+      return 'traditional';
+    }
+    else if (dough == 'Тонкое') {
+      return 'thin';
+    }
+    return dough;
+  }
+
+  List<String> _getToppings(List<Topping> toppings) {
+    return List<String>.from(toppings.where((topping) => topping.isSelected).map((topping) => topping.name));
+  }
+
+  void _addToCart(OrderItem orderItem) {
+    LocalDb().addOrderItem(orderItem);
+    Snacks.success(context, 'Добавлено в корзину');
     Navigator.pop(context);
   }
 
   void _updatePageInfo() {
     _productInfo.price = widget.product.price;
 
-    String size = _pizzaSizes[_pizzaSizeIndex];
-    String dough = _doughSizes[_doughSizeIndex];
+    size = _pizzaSizes[_pizzaSizeIndex];
+    dough = _doughSizes[_doughSizeIndex];
     String sizeNumber = '';
     if (size == 'Маленькая') {
       _productInfo.price = widget.product.price;
@@ -97,7 +134,7 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     }
 
     _confInfo = '$size $sizeNumber, $dough тесто, ${_productInfo.weight} г';
-    Logs.infoLog(_productInfo.toString());
+    // Logs.infoLog(_productInfo.toString());
     setState(() {});
   }
 
@@ -230,16 +267,22 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Image.network(widget.product.imageUrl),
+                        child: Hero(
+                          tag: 'productImage#${widget.product.id}',
+                          child: Image.network(widget.product.imageUrl),
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            widget.product.name,
-                            style: TS.getOpenSans(
-                                24, FontWeight.w700, AppColors.black),
+                          Hero(
+                            tag: 'productName#${widget.product.id}',
+                            child: Text(
+                              widget.product.name,
+                              style: TS.getOpenSans(
+                                  24, FontWeight.w700, AppColors.black),
+                            ),
                           ),
                           IconButton(
                             onPressed: _showAdditionalInfo,
@@ -307,12 +350,22 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               child: ElevatedButton(
-                onPressed: _addToCart,
+                onPressed: () {
+                  _addToCart(OrderItem(
+                    id: null,
+                    orderId: null,
+                    productId: widget.product.id,
+                    size: _getSize(size),
+                    dough: _getDough(dough),
+                    toppings: _getToppings(_toppings),
+                    quantity: 1,
+                    price: _productInfo.price,
+                  ));
+                },
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all<Size>(
                       const Size(double.infinity, 50)),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(AppColors.deepOrange),
+                  backgroundColor: MaterialStateProperty.all<Color>(AppColors.deepOrange),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../styles/app_colors.dart';
 import '../styles/ts.dart';
-import '../utils/profile_data.dart';
 import 'button_style.dart';
 
 class AppWidgets {
@@ -34,25 +33,25 @@ class AppWidgets {
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
         children: [
-          ElevatedButton(
-            onPressed: () {},
-            style: ButtonStyles.getOrangeOutlinedBox(24, 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Бонусные баллы',
-                  style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
-                ),
-                Text(
-                  '${ProfileData.user.coins} ©',
-                  style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
-                ),
-              ],
-            ),
-          ),
-          AppWidgets.getUnderbuttonText('Собирайте и тратьте на бесплатную пиццу!', 370, 24),
-          const SizedBox(height: 20),
+          // ElevatedButton(
+          //   onPressed: () {},
+          //   style: ButtonStyles.getOrangeOutlinedBox(24, 16),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Text(
+          //         'Бонусные баллы',
+          //         style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
+          //       ),
+          //       Text(
+          //         '${ProfileData.user.coins} ©',
+          //         style: TS.getOpenSans(18, FontWeight.w600, AppColors.black),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // AppWidgets.getUnderbuttonText('Собирайте и тратьте на бесплатную пиццу!', 370, 24),
+          // const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/addresses');
