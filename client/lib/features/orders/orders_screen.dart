@@ -18,14 +18,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Scaffold(
-        body: SafeArea(
-          child: Expanded(
-            child: Center(
-              child: Text('Нет активных заказов'),
-            ),
-          ),
+    return const Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Text('Нет активных заказов'),
         ),
       ),
     );

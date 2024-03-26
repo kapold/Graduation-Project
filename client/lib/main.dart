@@ -77,7 +77,7 @@ class PizzaApp extends StatelessWidget {
           '/settings': (context) => const SettingsScreen(),
         },
         theme: themeData,
-        debugShowCheckedModeBanner: false
+        debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:client/utils/logs.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -22,12 +21,6 @@ class LocalDb {
     return box.values.toList();
   }
 
-  Future<bool> isAdded(int productId) async {
-    final box = await _openBox();
-    final orderItems = box.values.toList();
-    return orderItems.any((item) => item.productId == productId);
-  }
-
   Future<void> deleteAllOrderItems() async {
     final box = await _openBox();
     await box.clear();
@@ -35,16 +28,33 @@ class LocalDb {
 
   Future<void> addOrderItem(OrderItem orderItem) async {
     final box = await _openBox();
-    await box.add(orderItem);
+    final orderItems = box.values.toList();
+
+    final isAdded = orderItems.any((item) => item == orderItem);
+    if (!isAdded) {
+      await box.add(orderItem);
+    }
   }
 
-  Future<void> deleteOrderItem(int id) async {
+  Future<void> deleteOrderItem(OrderItem orderItem) async {
     final box = await _openBox();
-    await box.delete(id);
+    final existingOrderItems = box.values.toList();
+    final index = existingOrderItems.indexWhere((item) => item.id == orderItem.id);
+
+    if (index != -1) {
+      await box.deleteAt(index);
+    }
   }
 
-  Future<void> updateOrderItem(int id, OrderItem updatedOrderItem) async {
+  Future<void> updateOrderItem(OrderItem updatedOrderItem) async {
     final box = await _openBox();
-    await box.put(id, updatedOrderItem);
+    final existingOrderItems = box.values.toList();
+    final index = existingOrderItems.indexWhere((item) => item.id == updatedOrderItem.id);
+
+    if (index != -1) {
+      final existingOrderItem = existingOrderItems[index];
+      existingOrderItem.quantity = updatedOrderItem.quantity;
+      await box.putAt(index, existingOrderItem);
+    }
   }
 }

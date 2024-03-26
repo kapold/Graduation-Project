@@ -1,3 +1,4 @@
+import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/cart/cart_screen.dart';
 import 'package:client/features/menu/menu_screen.dart';
 import 'package:client/features/profile/profile_screen.dart';
@@ -25,32 +26,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> pages;
-  late int cartItemsCount;
+  final CartBloc cartBloc = CartBloc();
 
   @override
   void initState() {
     super.initState();
     _getUserData();
     pages = [
-      MenuScreen(context),
+      MenuScreen(context, cartBloc),
       ProfileScreen(context),
       OrdersScreen(context),
-      const CartScreen()
+      CartScreen(context, cartBloc),
     ];
   }
 
   Future<void> _getUserData() async {
     String token = await LocalStorage.getToken();
     Response<dynamic> parsedToken = await UserRepository.auth(token);
-    ProfileData.user = await UserRepository.getUserById(parsedToken.data['user_id']);
+    AppData.user = await UserRepository.getUserById(parsedToken.data['user_id']);
 
     List<OrderItem> cartItems = await LocalDb().getAllOrderItems();
     Logs.infoLog('All Order Items:');
     for(var item in cartItems) {
       Logs.infoLog('Item: ${item.toString()}');
     }
-
-    cartItemsCount = (await LocalDb().getAllOrderItems()).length;
   }
 
   @override

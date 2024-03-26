@@ -7,7 +7,6 @@ class User extends Equatable {
   String name;
   String token;
   String role;
-  int coins;
 
   User({
     required this.id,
@@ -16,7 +15,6 @@ class User extends Equatable {
     required this.name,
     required this.token,
     required this.role,
-    required this.coins,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -27,7 +25,6 @@ class User extends Equatable {
       name: json['name'],
       token: json['token'],
       role: json['role'],
-      coins: json['coins']
     );
   }
 
@@ -39,7 +36,6 @@ class User extends Equatable {
       'name': name,
       'token': token,
       'role': role,
-      'coins': coins,
     };
   }
 

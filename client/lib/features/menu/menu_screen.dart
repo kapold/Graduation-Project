@@ -1,9 +1,11 @@
+import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/menu/bloc/menu_bloc.dart';
 import 'package:client/features/menu/bloc/menu_event.dart';
 import 'package:client/features/menu/bloc/menu_state.dart';
 import 'package:client/models/product.dart';
 import 'package:client/styles/app_colors.dart';
 import 'package:client/utils/logs.dart';
+import 'package:client/utils/profile_data.dart';
 import 'package:client/widgets/menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,18 +15,20 @@ import '../../widgets/input_decoration.dart';
 import '../../widgets/loader.dart';
 
 class MenuScreen extends StatefulWidget {
-  MenuScreen(this.externalContext, {super.key});
+  MenuScreen(this.externalContext, this.cartBloc, {super.key});
 
   BuildContext externalContext;
+  CartBloc cartBloc;
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState(externalContext);
+  State<MenuScreen> createState() => _MenuScreenState(externalContext, cartBloc);
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  _MenuScreenState(this.externalContext);
+  _MenuScreenState(this.externalContext, this.cartBloc);
 
   BuildContext externalContext;
+  CartBloc cartBloc;
 
   final MenuBloc _menuBloc = MenuBloc();
   List<Product> _menuProducts = [], _searchList = [];
@@ -101,7 +105,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             itemExtent: 180,
                             itemBuilder: (context, index) {
                               return MenuItems.getMenuItem(
-                                  externalContext, _searchList[index]);
+                                  externalContext, _searchList[index], cartBloc);
                             },
                           ),
                         )
@@ -184,6 +188,8 @@ class _MenuScreenState extends State<MenuScreen> {
         if (state is SuccessfulLoadedState) {
           _menuProducts = state.products;
           _searchList = state.products;
+
+          AppData.products = state.products;
         } else if (state is SearchResultState) {
           _searchList = state.products;
         } else if (state is FailedLoadedState) {

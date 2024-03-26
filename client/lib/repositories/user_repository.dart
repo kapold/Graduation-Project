@@ -52,7 +52,7 @@ class UserRepository {
     final response = await dio.get('${Statics.baseUri}${Statics.userUri}auth',
         data: {'token': token});
 
-    Logs.infoLog('Auth Data\n${response.data}');
+    // Logs.infoLog('Auth Data\n${response.data}');
     if (response.statusCode == 200) {
       return response;
     }
@@ -67,7 +67,7 @@ class UserRepository {
   static Future<User> getUserById(int id) async {
     final response = await dio.get('${Statics.baseUri}${Statics.userUri}$id');
 
-    Logs.infoLog('GetUserById Data\n${response.data}');
+    // Logs.infoLog('GetUserById Data\n${response.data}');
     if (response.statusCode == 200) {
       return User.fromJson(response.data);
     }

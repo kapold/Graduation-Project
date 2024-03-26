@@ -1,3 +1,5 @@
+import 'package:client/features/cart/bloc/cart_bloc.dart';
+import 'package:client/features/cart/bloc/cart_event.dart';
 import 'package:client/models/order_item.dart';
 import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
@@ -6,6 +8,7 @@ import 'package:client/utils/logs.dart';
 import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/product.dart';
 import '../../styles/ts.dart';
@@ -13,9 +16,10 @@ import '../../widgets/app_bar_style.dart';
 import '../../widgets/menu_item.dart';
 
 class MenuItemScreen extends StatefulWidget {
-  final Product product;
+  const MenuItemScreen({Key? key, required this.product, required this.cartBloc}) : super(key: key);
 
-  const MenuItemScreen({Key? key, required this.product}) : super(key: key);
+  final Product product;
+  final CartBloc cartBloc;
 
   @override
   _MenuItemScreenState createState() => _MenuItemScreenState();
@@ -37,7 +41,7 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     Topping(id: 8, name: 'Ананасы', price: 2.99),
     Topping(id: 9, name: 'Бекон', price: 3.49),
   ];
-  String size = '25 см', dough = 'Традиционное';
+  String size = 'Маленькая', dough = 'Традиционное';
   int _pizzaSizeIndex = 0, _doughSizeIndex = 0;
 
   @override
@@ -92,8 +96,9 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
 
   void _addToCart(OrderItem orderItem) {
     LocalDb().addOrderItem(orderItem);
-    Snacks.success(context, 'Добавлено в корзину');
+    // Snacks.success(context, 'Добавлено в корзину');
     Navigator.pop(context);
+    widget.cartBloc.add(GetCartEvent());
   }
 
   void _updatePageInfo() {
@@ -351,8 +356,9 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               child: ElevatedButton(
                 onPressed: () {
+                  const uuid = Uuid();
                   _addToCart(OrderItem(
-                    id: null,
+                    id: uuid.v4(),
                     orderId: null,
                     productId: widget.product.id,
                     size: _getSize(size),

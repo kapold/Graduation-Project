@@ -1,3 +1,4 @@
+import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/menu_item/menu_item_screen.dart';
 import 'package:client/models/product.dart';
 import 'package:client/models/topping.dart';
@@ -7,12 +8,12 @@ import 'package:client/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
 class MenuItems {
-  static Widget getMenuItem(BuildContext externalContext, Product product) {
+  static Widget getMenuItem(BuildContext externalContext, Product product, CartBloc cartBloc) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           externalContext,
-          MaterialPageRoute(builder: (context) => MenuItemScreen(product: product)),
+          MaterialPageRoute(builder: (context) => MenuItemScreen(product: product, cartBloc: cartBloc)),
         );
       },
       child: Padding(
@@ -71,7 +72,7 @@ class MenuItems {
                     Navigator.push(
                       externalContext,
                       MaterialPageRoute(
-                          builder: (context) => MenuItemScreen(product: product)),
+                          builder: (context) => MenuItemScreen(product: product, cartBloc: cartBloc)),
                     );
                   },
                   style: ButtonStyle(

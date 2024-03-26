@@ -17,7 +17,7 @@ class OrderItemAdapter extends TypeAdapter<OrderItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return OrderItem(
-      id: fields[0] as int?,
+      id: fields[0] as String,
       orderId: fields[1] as int?,
       productId: fields[2] as int,
       size: fields[3] as String,

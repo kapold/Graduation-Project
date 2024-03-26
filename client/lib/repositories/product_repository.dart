@@ -10,7 +10,7 @@ class ProductRepository {
   static Future<List<Product>> getProducts() async {
     final response = await dio.get('${Statics.baseUri}${Statics.productsUri}');
 
-    Logs.infoLog('Products Data\n${response.data}');
+    // Logs.infoLog('Products Data\n${response.data}');
     if (response.statusCode == 200) {
       List<Product> products = [];
       List<dynamic> productsJson = response.data;
@@ -22,6 +22,18 @@ class ProductRepository {
     }
     else {
       throw Exception('Products Get error');
+    }
+  }
+
+  static Future<Product> getProductById(int id) async {
+    final response = await dio.get('${Statics.baseUri}${Statics.productsUri}/$id');
+
+    Logs.infoLog('Product Data\n${response.data}');
+    if (response.statusCode == 200) {
+      return Product.fromJson(response.data);
+    }
+    else {
+      throw Exception('Product Get error');
     }
   }
 }

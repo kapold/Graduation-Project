@@ -30,7 +30,7 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
   @override
   void initState() {
     super.initState();
-    _deliveryAddressesBloc.add(GetAddressesEvent(userId: ProfileData.user.id));
+    _deliveryAddressesBloc.add(GetAddressesEvent(userId: AppData.user.id));
   }
 
   void _addAddressBtn() {
@@ -40,7 +40,8 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
       return;
     }
     _deliveryAddressesBloc.add(AddAddressEvent(
-        userId: ProfileData.user.id, address: _addressController.text));
+        userId: AppData.user.id, address: _addressController.text));
+    _addressController.text = '';
   }
 
   void _deleteAddressBtn(int addressId) {
@@ -107,50 +108,56 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
                                 ),
                               )
                             : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _deliveryAddresses.length,
-                          itemBuilder: (context, index) {
-                            DeliveryAddress address = _deliveryAddresses[index];
-                            return Dismissible(
-                              key: Key(address.address),
-                              background: Container(color: AppColors.darkerRed),
-                              secondaryBackground: Container(
-                                color: AppColors.darkerRed,
-                                alignment: Alignment.centerRight,
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 16),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              onDismissed: (direction) {
-                                _deleteAddressBtn(address.id);
-                                _deliveryAddresses.remove(address);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 32),
-                                child: ListTile(
-                                  title: Row(
-                                    children: [
-                                      Image.asset(
-                                          'assets/icons/circle.png',
-                                        color: AppColors.deepOrange,
-                                        scale: 2.8,
+                                shrinkWrap: true,
+                                itemCount: _deliveryAddresses.length,
+                                itemBuilder: (context, index) {
+                                  DeliveryAddress address =
+                                      _deliveryAddresses[index];
+                                  return Dismissible(
+                                    key: Key(address.address),
+                                    background:
+                                        Container(color: AppColors.darkerRed),
+                                    secondaryBackground: Container(
+                                      color: AppColors.darkerRed,
+                                      alignment: Alignment.centerRight,
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(right: 16),
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      const SizedBox(width: 16),
-                                      Text(
-                                        address.address,
-                                        style: TS.getOpenSans(18, FontWeight.w500, AppColors.black),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        )
+                                    ),
+                                    onDismissed: (direction) {
+                                      _deleteAddressBtn(address.id);
+                                      _deliveryAddresses.remove(address);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 32),
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Image.asset(
+                                              'assets/icons/circle.png',
+                                              color: AppColors.deepOrange,
+                                              scale: 2.8,
+                                            ),
+                                            const SizedBox(width: 16),
+                                            Expanded(
+                                              child: Text(
+                                                address.address,
+                                                style: TS.getOpenSans(18, FontWeight.w500, AppColors.black),
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
                       ],
                     ),
                   ),
@@ -219,7 +226,7 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
         if (state is SuccessfulAddedAddressesState) {
           Snacks.success(context, 'Адрес добавлен успешно');
           _deliveryAddressesBloc
-              .add(GetAddressesEvent(userId: ProfileData.user.id));
+              .add(GetAddressesEvent(userId: AppData.user.id));
         }
         if (state is SuccessfulDeletedAddressesState) {
           Snacks.success(context, 'Адрес удален успешно');

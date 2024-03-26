@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'order_item.g.dart';
 
 @HiveType(typeId: 0)
-class OrderItem {
+class OrderItem extends Equatable {
   @HiveField(0)
-  int? id;
+  String id;
   @HiveField(1)
   int? orderId;
   @HiveField(2)
@@ -71,4 +72,7 @@ class OrderItem {
         'price: $price'
     '}';
   }
+
+  @override
+  List<Object?> get props => [orderId, productId, size, dough, toppings, price];
 }

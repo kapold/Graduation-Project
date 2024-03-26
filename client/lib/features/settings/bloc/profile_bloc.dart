@@ -20,7 +20,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       emit(SavingProfileState());
 
-      UserRepository.updateUserById(event.id, event.name).then((value) => ProfileData.user.name = event.name);
+      UserRepository.updateUserById(event.id, event.name).then((value) => AppData.user.name = event.name);
 
       emit(CommonProfileState());
     }

@@ -27,8 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _phoneNumberController.text = ProfileData.user.phoneNumber;
-    _nameController.text = ProfileData.user.name;
+    _phoneNumberController.text = AppData.user.phoneNumber;
+    _nameController.text = AppData.user.name;
   }
 
   void _saveUserBtn() {
@@ -37,9 +37,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return;
     }
 
-    ProfileData.user.name = _nameController.text;
+    AppData.user.name = _nameController.text;
     _profileBloc.add(
-        UpdateUserEvent(id: ProfileData.user.id, name: ProfileData.user.name));
+        UpdateUserEvent(id: AppData.user.id, name: AppData.user.name));
   }
 
   void _deleteUserBtn() {
@@ -59,7 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _profileBloc.add(DeleteUserEvent(id: ProfileData.user.id));
+                _profileBloc.add(DeleteUserEvent(id: AppData.user.id));
               },
               child: Text(
                 'Удалить',

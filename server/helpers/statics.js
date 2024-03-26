@@ -1,4 +1,4 @@
 module.exports = {
-    user_expiration_time: '1d',
-    jwt_secret: 'BSTU2023'
+    user_expiration_time: '1w',
+    jwt_secret: 'BSTU2023',
 };
