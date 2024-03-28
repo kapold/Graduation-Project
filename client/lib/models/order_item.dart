@@ -33,16 +33,40 @@ class OrderItem extends Equatable {
     required this.price,
   });
 
+  String get doughFormatted {
+    switch (dough) {
+      case 'thin':
+        return 'Тонкое';
+      case 'traditional':
+        return 'Традиционное';
+      default:
+        return 'Неизвестное тесто';
+    }
+  }
+
+  String get sizeFormatted {
+    switch (size) {
+      case 'small':
+        return 'Маленькая 25 см';
+      case 'medium':
+        return 'Средняя 30 см';
+      case 'large':
+        return 'Большая 35 см';
+      default:
+        return 'Неизвестный размер';
+    }
+  }
+
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
-      id: json['id'],
+      id: json['id'].toString(),
       orderId: json['orderId'],
       productId: json['productId'],
       size: json['size'],
       dough: json['dough'],
       toppings: List<String>.from(json['toppings']),
       quantity: json['quantity'],
-      price: json['price'],
+      price: (json['price'] is num) ? (json['price'] as num).toDouble() : 0.0,
     );
   }
 
@@ -53,9 +77,9 @@ class OrderItem extends Equatable {
       'productId': productId,
       'size': size,
       'dough': dough,
-      'toppings': toppings.map((topping) => topping.toString()).toList(),
+      'toppings': toppings,
       'quantity': quantity,
-      'price': price,
+      'price': price.toStringAsFixed(2),
     };
   }
 

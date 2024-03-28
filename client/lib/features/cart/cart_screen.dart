@@ -1,7 +1,11 @@
 import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/cart/bloc/cart_event.dart';
+import 'package:client/features/orders/bloc/order_bloc.dart';
+import 'package:client/features/orders/bloc/order_event.dart';
+import 'package:client/models/order.dart';
 import 'package:client/repositories/address_repository.dart';
 import 'package:client/styles/ts.dart';
+import 'package:client/utils/local_db.dart';
 import 'package:client/utils/profile_data.dart';
 import 'package:client/utils/snacks.dart';
 import 'package:client/widgets/cart_item.dart';
@@ -17,20 +21,22 @@ import '../../styles/app_colors.dart';
 import 'bloc/cart_state.dart';
 
 class CartScreen extends StatefulWidget {
-  CartScreen(this.externalContext, this.cartBloc, {super.key});
+  CartScreen(this.externalContext, this.cartBloc, this.orderBloc, {super.key});
 
   BuildContext externalContext;
   CartBloc cartBloc;
+  OrderBloc orderBloc;
 
   @override
-  State<CartScreen> createState() => _CartScreenState(externalContext, cartBloc);
+  State<CartScreen> createState() => _CartScreenState(externalContext, cartBloc, orderBloc);
 }
 
 class _CartScreenState extends State<CartScreen> {
-  _CartScreenState(this.externalContext, this.cartBloc);
+  _CartScreenState(this.externalContext, this.cartBloc, this.orderBloc);
 
   BuildContext externalContext;
   CartBloc cartBloc;
+  OrderBloc orderBloc;
 
   final List<String> _paymentTypes = ['Наличными', 'Картой'];
   List<DeliveryAddress> _deliveryAddresses = [];
@@ -74,7 +80,17 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _createOrder(List<OrderItem> orderItems) {
+  void _addOrder(List<OrderItem> orderItems) {
+    Navigator.pop(context);
+    cartBloc.add(OrderCartEvent(
+      AppData.user.id,
+      _paymentTypes[_selectedPaymentIndex] == 'Наличными' ? 'in cash' : 'by card',
+      CartItems.getTotalPrice(orderItems),
+      orderItems,
+    ));
+  }
+
+  void _showOrderInfo(List<OrderItem> orderItems) {
     AddressRepository.getUserAddresses(AppData.user.id).then((addresses) {
       if (addresses.isNotEmpty) {
         _deliveryAddresses = addresses;
@@ -89,7 +105,7 @@ class _CartScreenState extends State<CartScreen> {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             child: Container(
-                height: 480,
+                height: 490,
                 width: MediaQuery.of(context).size.width,
                 color: AppColors.white,
                 child: Padding(
@@ -108,7 +124,10 @@ class _CartScreenState extends State<CartScreen> {
                               20, FontWeight.w500, AppColors.deepOrange),
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const Divider(
+                        color: AppColors.lightGrey,
+                        thickness: 1,
+                      ),
                       _deliveryAddresses.isEmpty
                           ? Column(
                               children: [
@@ -245,7 +264,9 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _addOrder(orderItems);
+                                  },
                                   style: ButtonStyle(
                                     fixedSize: MaterialStateProperty.all<Size>(
                                         Size(MediaQuery.of(context).size.width, 50)),
@@ -302,7 +323,7 @@ class _CartScreenState extends State<CartScreen> {
                         SizedBox(
                           height: 200,
                           width: 200,
-                          child: Image.asset('assets/images/add_cart.png'),
+                          child: Image.asset('assets/images/add-cart.png'),
                         ),
                         const SizedBox(height: 40),
                         Text(
@@ -357,7 +378,7 @@ class _CartScreenState extends State<CartScreen> {
                           horizontal: 32, vertical: 16),
                       child: ElevatedButton(
                         onPressed: () {
-                          _createOrder(state.orderItems);
+                          _showOrderInfo(state.orderItems);
                         },
                         style: ButtonStyle(
                           fixedSize: MaterialStateProperty.all<Size>(
@@ -385,6 +406,15 @@ class _CartScreenState extends State<CartScreen> {
             );
           }
         }
+        if (state is OrderingCartState) {
+          return Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Loaders.getAdaptiveLoader(),
+              ),
+            ),
+          );
+        }
         return Scaffold(
           body: SafeArea(
             child: Center(
@@ -398,7 +428,11 @@ class _CartScreenState extends State<CartScreen> {
       },
       listener: (context, state) {
         if (state is SuccessfulOrderedState) {
-          Snacks.success(context, 'Заказ успешно оформлен');
+          LocalDb().deleteAllOrderItems().then((_) {
+            cartBloc.add(GetCartEvent());
+            orderBloc.add(GetOrdersEvent(AppData.user.id));
+            Snacks.success(context, 'Заказ успешно оформлен');
+          });
         }
         if (state is FailedOrderedState) {
           Snacks.failed(context, 'Ошибка оформления заказа');

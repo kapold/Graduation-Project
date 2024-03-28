@@ -6,6 +6,8 @@ class AppColors {
   static const blue = Colors.blue;
   static const grey = Colors.grey;
   static const red = Colors.red;
+  static const orange = Colors.orange;
+  static const green = Colors.green;
 
   static const darkerRed = Color(0xFFCB5A5E);
   static const deepOrange = Color.fromRGBO(209, 87, 0, 1);

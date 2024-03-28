@@ -57,7 +57,6 @@ module.exports = {
 
     deleteAddressById: async (addressData) => {
         const { addressId } = addressData;
-        console.log(`GOVNO: ${addressId}`)
         if (!Number.isInteger(addressId)) {
             throw errors.invalidId;
         }

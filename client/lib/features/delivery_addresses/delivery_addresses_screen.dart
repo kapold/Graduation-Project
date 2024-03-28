@@ -42,6 +42,7 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
     _deliveryAddressesBloc.add(AddAddressEvent(
         userId: AppData.user.id, address: _addressController.text));
     _addressController.text = '';
+    _deliveryAddressesBloc.add(GetAddressesEvent(userId: AppData.user.id));
   }
 
   void _deleteAddressBtn(int addressId) {

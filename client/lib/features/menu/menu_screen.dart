@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../styles/ts.dart';
-import '../../widgets/input_decoration.dart';
 import '../../widgets/loader.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -21,7 +20,8 @@ class MenuScreen extends StatefulWidget {
   CartBloc cartBloc;
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState(externalContext, cartBloc);
+  State<MenuScreen> createState() =>
+      _MenuScreenState(externalContext, cartBloc);
 }
 
 class _MenuScreenState extends State<MenuScreen> {
@@ -69,8 +69,19 @@ class _MenuScreenState extends State<MenuScreen> {
                           style: TS.getOpenSans(
                               18, FontWeight.w500, AppColors.black),
                           cursorColor: AppColors.deepOrange,
-                          decoration: InputDecorations.getSearch(
-                              'Поиск', '', Icons.search),
+                          decoration: const InputDecoration(
+                            hintText: 'Поиск',
+                            prefixIcon:
+                                Icon(Icons.search, color: AppColors.deepOrange),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppColors.deepOrange),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: AppColors.deepOrange, width: 2.0),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 300),
@@ -94,8 +105,18 @@ class _MenuScreenState extends State<MenuScreen> {
                       style:
                           TS.getOpenSans(18, FontWeight.w500, AppColors.black),
                       cursorColor: AppColors.deepOrange,
-                      decoration:
-                          InputDecorations.getSearch('Поиск', '', Icons.search),
+                      decoration: const InputDecoration(
+                        hintText: 'Поиск',
+                        prefixIcon:
+                            Icon(Icons.search, color: AppColors.deepOrange),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.deepOrange),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.deepOrange, width: 2.0),
+                        ),
+                      ),
                     ),
                   ),
                   _searchList.isNotEmpty
@@ -104,16 +125,30 @@ class _MenuScreenState extends State<MenuScreen> {
                             itemCount: _searchList.length,
                             itemExtent: 180,
                             itemBuilder: (context, index) {
-                              return MenuItems.getMenuItem(
-                                  externalContext, _searchList[index], cartBloc);
+                              return MenuItems.getMenuItem(externalContext,
+                                  _searchList[index], cartBloc);
                             },
                           ),
                         )
-                      : Text(
-                          "Пицца не найдена",
-                          style:
-                              TS.getOpenSans(18, FontWeight.w500, Colors.grey),
-                        )
+                      : Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/no-search-found.png',
+                                scale: 4,
+                                color: AppColors.deepOrange,
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'Пицца не найдена',
+                                style: TS.getOpenSans(24, FontWeight.w500,
+                                    AppColors.black),
+                              ),
+                            ],
+                          ),
+                        ),
                 ],
               ),
             ),
@@ -134,8 +169,19 @@ class _MenuScreenState extends State<MenuScreen> {
                           style: TS.getOpenSans(
                               18, FontWeight.w500, AppColors.black),
                           cursorColor: AppColors.deepOrange,
-                          decoration: InputDecorations.getSearch(
-                              'Поиск', '', Icons.search),
+                          decoration: const InputDecoration(
+                            hintText: 'Поиск',
+                            prefixIcon:
+                                Icon(Icons.search, color: AppColors.deepOrange),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppColors.deepOrange),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: AppColors.deepOrange, width: 2.0),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -161,8 +207,19 @@ class _MenuScreenState extends State<MenuScreen> {
                           style: TS.getOpenSans(
                               18, FontWeight.w500, AppColors.black),
                           cursorColor: AppColors.deepOrange,
-                          decoration: InputDecorations.getSearch(
-                              'Поиск', '', Icons.search),
+                          decoration: const InputDecoration(
+                            hintText: 'Поиск',
+                            prefixIcon:
+                                Icon(Icons.search, color: AppColors.deepOrange),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: AppColors.deepOrange),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: AppColors.deepOrange, width: 2.0),
+                            ),
+                          ),
                         ),
                       ),
                       Container(

@@ -1,20 +1,17 @@
 import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/cart/cart_screen.dart';
 import 'package:client/features/menu/menu_screen.dart';
+import 'package:client/features/orders/bloc/order_bloc.dart';
 import 'package:client/features/profile/profile_screen.dart';
 import 'package:client/repositories/user_repository.dart';
-import 'package:client/utils/local_db.dart';
 import 'package:client/utils/local_storage.dart';
-import 'package:client/utils/logs.dart';
 import 'package:client/utils/profile_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/order_item.dart';
 import '../../styles/app_colors.dart';
 import '../orders/orders_screen.dart';
-
 
 
 class HomeScreen extends StatefulWidget {
@@ -27,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> pages;
   final CartBloc cartBloc = CartBloc();
+  final OrderBloc orderBloc = OrderBloc();
 
   @override
   void initState() {
@@ -35,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
     pages = [
       MenuScreen(context, cartBloc),
       ProfileScreen(context),
-      OrdersScreen(context),
-      CartScreen(context, cartBloc),
+      OrdersScreen(context, orderBloc),
+      CartScreen(context, cartBloc, orderBloc),
     ];
   }
 
@@ -45,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Response<dynamic> parsedToken = await UserRepository.auth(token);
     AppData.user = await UserRepository.getUserById(parsedToken.data['user_id']);
 
-    List<OrderItem> cartItems = await LocalDb().getAllOrderItems();
-    Logs.infoLog('All Order Items:');
-    for(var item in cartItems) {
-      Logs.infoLog('Item: ${item.toString()}');
-    }
+    // List<OrderItem> cartItems = await LocalDb().getAllOrderItems();
+    // Logs.infoLog('All Order Items:');
+    // for(var item in cartItems) {
+    //   Logs.infoLog('Item: ${item.toString()}');
+    // }
   }
 
   @override
@@ -64,19 +62,19 @@ class _HomeScreenState extends State<HomeScreen> {
             inactiveColor: AppColors.grey,
             items: const [
               BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/icons/menu_icon.png')),
+                icon: ImageIcon(AssetImage('assets/icons/menu-icon.png')),
                 label: 'Меню',
               ),
               BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/icons/profile_icon.png')),
+                icon: ImageIcon(AssetImage('assets/icons/profile-icon.png')),
                 label: 'Профиль',
               ),
               BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/icons/orders_icon.png')),
+                icon: ImageIcon(AssetImage('assets/icons/orders-icon.png')),
                 label: 'Заказы',
               ),
               BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/icons/cart_icon.png')),
+                icon: ImageIcon(AssetImage('assets/icons/cart-icon.png')),
                 label: 'Корзина',
               ),
             ]

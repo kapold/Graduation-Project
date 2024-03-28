@@ -3,12 +3,12 @@ module.exports = (Sequelize, sequelize) => {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
         userId: {
             type: Sequelize.INTEGER,
             foreignKey: true,
-            notNull: true
+            notNull: true,
         },
         address: Sequelize.STRING,
     });

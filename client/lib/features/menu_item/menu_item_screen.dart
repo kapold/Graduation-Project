@@ -4,8 +4,6 @@ import 'package:client/models/order_item.dart';
 import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
 import 'package:client/utils/local_db.dart';
-import 'package:client/utils/logs.dart';
-import 'package:client/utils/snacks.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:uuid/uuid.dart';
@@ -260,133 +258,131 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBars.getCommonAppBar(widget.product.name, context),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 32, right: 32, top: 8),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Hero(
-                          tag: 'productImage#${widget.product.id}',
-                          child: Image.network(widget.product.imageUrl),
-                        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 32, right: 32, top: 8),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Hero(
+                        tag: 'productImage#${widget.product.id}',
+                        child: Image.network(widget.product.imageUrl),
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Hero(
-                            tag: 'productName#${widget.product.id}',
-                            child: Text(
-                              widget.product.name,
-                              style: TS.getOpenSans(
-                                  24, FontWeight.w700, AppColors.black),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: _showAdditionalInfo,
-                            icon: const Icon(Icons.info_outline_rounded),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 500,
-                        child: Text(
-                          _confInfo,
-                          style: TS.getOpenSans(
-                              16, FontWeight.w600, AppColors.grey),
-                        ),
-                      ),
-                      Text(
-                        widget.product.description,
-                        style: TS.getOpenSans(
-                            16, FontWeight.w500, AppColors.black),
-                      ),
-                      const SizedBox(height: 20),
-                      ToggleSwitch(
-                        minWidth: MediaQuery.of(context).size.width - 322,
-                        activeBgColor: const [AppColors.deepOrange],
-                        initialLabelIndex: _pizzaSizeIndex,
-                        totalSwitches: _pizzaSizes.length,
-                        labels: _pizzaSizes,
-                        onToggle: (index) {
-                          _pizzaSizeIndex = index!;
-                          _updatePageInfo();
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      ToggleSwitch(
-                        minWidth: MediaQuery.of(context).size.width - 258,
-                        activeBgColor: const [AppColors.deepOrange],
-                        initialLabelIndex: _doughSizeIndex,
-                        totalSwitches: _doughSizes.length,
-                        labels: _doughSizes,
-                        onToggle: (index) {
-                          _doughSizeIndex = index!;
-                          _updatePageInfo();
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _toppings.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              _selectTopping(_toppings[index]);
-                              _updatePageInfo();
-                            },
-                            child: MenuItems.getToppingItem(_toppings[index]),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              child: ElevatedButton(
-                onPressed: () {
-                  const uuid = Uuid();
-                  _addToCart(OrderItem(
-                    id: uuid.v4(),
-                    orderId: null,
-                    productId: widget.product.id,
-                    size: _getSize(size),
-                    dough: _getDough(dough),
-                    toppings: _getToppings(_toppings),
-                    quantity: 1,
-                    price: _productInfo.price,
-                  ));
-                },
-                style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all<Size>(
-                      const Size(double.infinity, 50)),
-                  backgroundColor: MaterialStateProperty.all<Color>(AppColors.deepOrange),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  elevation: MaterialStateProperty.all<double>(0),
-                ),
-                child: Text(
-                  'Добавить за ${_productInfo.price.toStringAsFixed(2)} руб.',
-                  style: TS.getOpenSans(20, FontWeight.w600, AppColors.white),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Hero(
+                          tag: 'productName#${widget.product.id}',
+                          child: Text(
+                            widget.product.name,
+                            style: TS.getOpenSans(
+                                24, FontWeight.w700, AppColors.black),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: _showAdditionalInfo,
+                          icon: const Icon(Icons.info_outline_rounded),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 500,
+                      child: Text(
+                        _confInfo,
+                        style: TS.getOpenSans(
+                            16, FontWeight.w600, AppColors.grey),
+                      ),
+                    ),
+                    Text(
+                      widget.product.description,
+                      style: TS.getOpenSans(
+                          16, FontWeight.w500, AppColors.black),
+                    ),
+                    const SizedBox(height: 20),
+                    ToggleSwitch(
+                      minWidth: MediaQuery.of(context).size.width - 322,
+                      activeBgColor: const [AppColors.deepOrange],
+                      initialLabelIndex: _pizzaSizeIndex,
+                      totalSwitches: _pizzaSizes.length,
+                      labels: _pizzaSizes,
+                      onToggle: (index) {
+                        _pizzaSizeIndex = index!;
+                        _updatePageInfo();
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    ToggleSwitch(
+                      minWidth: MediaQuery.of(context).size.width - 258,
+                      activeBgColor: const [AppColors.deepOrange],
+                      initialLabelIndex: _doughSizeIndex,
+                      totalSwitches: _doughSizes.length,
+                      labels: _doughSizes,
+                      onToggle: (index) {
+                        _doughSizeIndex = index!;
+                        _updatePageInfo();
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _toppings.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            _selectTopping(_toppings[index]);
+                            _updatePageInfo();
+                          },
+                          child: MenuItems.getToppingItem(_toppings[index]),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            child: ElevatedButton(
+              onPressed: () {
+                const uuid = Uuid();
+                _addToCart(OrderItem(
+                  id: uuid.v4(),
+                  orderId: null,
+                  productId: widget.product.id,
+                  size: _getSize(size),
+                  dough: _getDough(dough),
+                  toppings: _getToppings(_toppings),
+                  quantity: 1,
+                  price: _productInfo.price,
+                ));
+              },
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all<Size>(
+                    const Size(double.infinity, 50)),
+                backgroundColor: MaterialStateProperty.all<Color>(AppColors.deepOrange),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                elevation: MaterialStateProperty.all<double>(0),
+              ),
+              child: Text(
+                'Добавить за ${_productInfo.price.toStringAsFixed(2)} руб.',
+                style: TS.getOpenSans(20, FontWeight.w600, AppColors.white),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

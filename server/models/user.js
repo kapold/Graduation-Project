@@ -3,11 +3,11 @@ module.exports = (Sequelize, sequelize) => {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
         phoneNumber: {
             type: Sequelize.STRING,
-            unique: true
+            unique: true,
         },
         password: Sequelize.STRING,
         name: Sequelize.STRING,

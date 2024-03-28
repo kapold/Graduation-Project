@@ -1,6 +1,8 @@
 import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/delivery_addresses/delivery_addresses_screen.dart';
 import 'package:client/features/menu/bloc/menu_bloc.dart';
+import 'package:client/features/order_history/order_history_screen.dart';
+import 'package:client/features/orders/bloc/order_bloc.dart';
 import 'package:client/features/settings/settings_screen.dart';
 import 'package:client/features/welcome/welcome_screen.dart';
 import 'package:client/repositories/user_repository.dart';
@@ -29,32 +31,27 @@ Future<void> main() async {
   UserRepository.auth(await LocalStorage.getToken()).then((response) {
     if (response.statusCode == 200) {
       initialRoute = '/home';
-    }
-    else if (response.statusCode == 500) {
+    } else if (response.statusCode == 500) {
       LocalStorage.clearToken();
     }
 
-    runApp(MultiBlocProvider(
-        providers: [
-          BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
-          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
-          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
-          BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
-          BlocProvider<CartBloc>(create: (_) => CartBloc()),
-        ],
-        child: PizzaApp(initialRoute, themeData)
-    ));
+    runApp(MultiBlocProvider(providers: [
+      BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
+      BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
+      BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
+      BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
+      BlocProvider<CartBloc>(create: (_) => CartBloc()),
+      BlocProvider<OrderBloc>(create: (_) => OrderBloc()),
+    ], child: PizzaApp(initialRoute, themeData)));
   }).onError((error, stackTrace) {
-    runApp(MultiBlocProvider(
-        providers: [
-          BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
-          BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
-          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
-          BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
-          BlocProvider<CartBloc>(create: (_) => CartBloc()),
-        ],
-        child: PizzaApp(initialRoute, themeData)
-    ));
+    runApp(MultiBlocProvider(providers: [
+      BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
+      BlocProvider<RegistrationBloc>(create: (_) => RegistrationBloc()),
+      BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
+      BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
+      BlocProvider<CartBloc>(create: (_) => CartBloc()),
+      BlocProvider<OrderBloc>(create: (_) => OrderBloc()),
+    ], child: PizzaApp(initialRoute, themeData)));
   });
 }
 
@@ -67,17 +64,18 @@ class PizzaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        initialRoute: initialRoute,
-        routes: {
-          '/welcome': (context) => const WelcomeScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/registration': (context) => const RegistrationScreen(),
-          '/home': (context) => const HomeScreen(),
-          '/addresses': (context) => const DeliveryAddressesScreen(),
-          '/settings': (context) => const SettingsScreen(),
-        },
-        theme: themeData,
-        debugShowCheckedModeBanner: false,
+      initialRoute: initialRoute,
+      routes: {
+        '/welcome': (context) => const WelcomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/registration': (context) => const RegistrationScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/addresses': (context) => const DeliveryAddressesScreen(),
+        '/settings': (context) => const SettingsScreen(),
+        '/order-history': (context) => const OrderHistoryScreen(),
+      },
+      theme: themeData,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

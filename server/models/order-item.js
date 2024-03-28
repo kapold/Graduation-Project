@@ -3,38 +3,38 @@ module.exports = (Sequelize, sequelize) => {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
         orderId: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         productId: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         size: {
             type: Sequelize.ENUM,
             values: ['small', 'medium', 'large'],
-            allowNull: true
+            allowNull: true,
         },
         dough: {
             type: Sequelize.ENUM,
             values: ['traditional', 'thin'],
-            allowNull: true
+            allowNull: true,
         },
         toppings: {
             type: Sequelize.ARRAY(Sequelize.STRING),
             allowNull: true,
-            defaultValue: null
+            defaultValue: null,
         },
         quantity: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         price: {
             type: Sequelize.FLOAT,
-            allowNull: false
+            allowNull: false,
         },
     });
 };

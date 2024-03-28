@@ -71,7 +71,9 @@ class AppWidgets {
           AppWidgets.getUnderbuttonText('Нажмите, чтобы добавить адреса для доставки', 370, 24),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/order-history');
+            },
             style: ButtonStyles.getOrangeOutlinedBox(24, 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

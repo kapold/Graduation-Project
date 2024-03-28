@@ -30,6 +30,11 @@ module.exports = {
         code: 'entity_not_found',
         status: 404
     },
+    entityNotCreated: {
+        message: 'Entity Not Created',
+        code: 'entity_not_created',
+        status: 422
+    },
     methodNotAllowed: {
         message: 'methodNotAllowed',
         code: 'method_not_allowed',
