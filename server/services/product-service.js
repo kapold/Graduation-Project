@@ -37,7 +37,9 @@ module.exports = {
     },
 
     updateProductById: async (productData) => {
+        console.log(`ID got: ${productData.id}`);
         const product = await Product.findByPk(parseInt(productData.id));
+        console.log(`Product find: ${product.toString()}`);
         if (!product) {
             throw errors.entityNotFound;
         }
@@ -79,12 +81,13 @@ module.exports = {
         return product;
     },
 
-    deleteProductById: async (id) => {
-        if (!Number.isInteger(id)) {
+    deleteProductById: async (data) => {
+        const {productId} = data;
+        if (!Number.isInteger(productId)) {
             throw errors.invalidId;
         }
 
-        const product = await Product.findByPk(id);
+        const product = await Product.findByPk(productId);
         if (!product) {
             throw errors.entityNotFound;
         }

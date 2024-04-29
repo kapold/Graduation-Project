@@ -11,8 +11,7 @@ module.exports = {
 
     addProduct: async (req, res, next) => {
         try {
-            const productData = req.body;
-            res.json(await productService.addProduct(productData));
+            res.json(await productService.addProduct(req.body));
         } catch (error) {
             next(error);
         }
@@ -28,8 +27,7 @@ module.exports = {
 
     updateProductById: async (req, res, next) => {
         try {
-            const productData = req.body;
-            res.json(await productService.updateProductById(productData));
+            res.json(await productService.updateProductById(req.body));
         } catch (error) {
             next(error);
         }
@@ -37,7 +35,7 @@ module.exports = {
 
     deleteProductById: async (req, res, next) => {
         try {
-            res.json(await productService.deleteProductById(req.body.id));
+            res.json(await productService.deleteProductById(req.body));
         } catch (error) {
             next(error);
         }

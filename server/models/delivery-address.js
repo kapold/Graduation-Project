@@ -10,6 +10,12 @@ module.exports = (Sequelize, sequelize) => {
             foreignKey: true,
             notNull: true,
         },
-        address: Sequelize.STRING,
+        city: Sequelize.STRING,
+        street: Sequelize.STRING,
+        homeNumber: Sequelize.STRING,
+        flatNumber: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
     });
 }

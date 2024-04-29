@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DeliveryAddressesBloc extends Bloc<DeliveryAddressesEvent, DeliveryAddressesState> {
   DeliveryAddressesBloc() : super(LoadingAddressesState()) {
     on<GetAddressesEvent>(_getAddressesHandler);
-    on<AddAddressEvent>(_addAddresseHandler);
+    on<AddAddressEvent>(_addAddressHandler);
     on<DeleteAddressEvent>(_deleteAddressesHandler);
   }
 
@@ -24,7 +24,7 @@ class DeliveryAddressesBloc extends Bloc<DeliveryAddressesEvent, DeliveryAddress
     }
   }
 
-  Future<void> _addAddresseHandler(AddAddressEvent event, Emitter<DeliveryAddressesState> emit) async {
+  Future<void> _addAddressHandler(AddAddressEvent event, Emitter<DeliveryAddressesState> emit) async {
     try {
       emit(LoadingAddressesState());
 

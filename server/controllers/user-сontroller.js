@@ -52,6 +52,15 @@ module.exports = {
         }
     },
 
+    authStaff: async (req, res, next) => {
+        try {
+            const accessKey = req.body;
+            res.json(await userService.authStaff(accessKey));
+        } catch (error) {
+            next(error);
+        }
+    },
+
     updateUserById: async (req, res, next) => {
         try {
             const userData = req.body;

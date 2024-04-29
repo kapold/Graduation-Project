@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "768074138212",
+    "project_id": "pizzas-811dc",
+    "storage_bucket": "pizzas-811dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768074138212:android:bec3a2ae6a493ac89c9571",
+        "android_client_info": {
+          "package_name": "com.kapold.client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOOFOGSFsOfx-hqHX2GRwUr_E1pqg8BMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768074138212:android:90444f2b843129d59c9571",
+        "android_client_info": {
+          "package_name": "com.kapold.graduation_ap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOOFOGSFsOfx-hqHX2GRwUr_E1pqg8BMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

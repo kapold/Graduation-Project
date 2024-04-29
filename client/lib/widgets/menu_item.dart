@@ -1,5 +1,6 @@
 import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/menu_item/menu_item_screen.dart';
+import 'package:client/models/composition.dart';
 import 'package:client/models/product.dart';
 import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
@@ -181,6 +182,60 @@ class MenuItems {
                   ),
                 ],
               )
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  static Widget getCompositionItem(Composition composition) {
+    if (composition.isSelected) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          padding: const EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                composition.name.toLowerCase(),
+                style: TS.getOpenSans(16, FontWeight.w500, AppColors.black),
+              ),
+              Image.asset(
+                'assets/icons/remove.png',
+                scale: 3,
+                color: AppColors.deepOrange,
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          padding: const EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                composition.name.toLowerCase(),
+                style: TS.getOpenSans(16, FontWeight.w500, AppColors.black),
+              ),
+              Image.asset(
+                'assets/icons/unckecked.png',
+                scale: 3,
+                color: AppColors.grey,
+              ),
             ],
           ),
         ),

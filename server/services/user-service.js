@@ -22,13 +22,13 @@ module.exports = {
     },
 
     register: async (userData) => {
-        let {phoneNumber, password, name, role } = userData;
+        let {phoneNumber, password, name, role} = userData;
 
         if (!name || !password || !phoneNumber) {
             throw errors.invalidInput('Name, password and phone number are required');
         }
 
-        const existingUser = await User.findOne({ where: { phoneNumber } });
+        const existingUser = await User.findOne({where: {phoneNumber}});
         if (existingUser) {
             throw errors.entityAlreadyExists;
         }
@@ -87,11 +87,35 @@ module.exports = {
 
     auth: async (data) => {
         const {token} = data;
+
         if (!token) {
             throw errors.invalidInput('Token is empty');
         }
 
         return jwt.verify(token, statics.jwt_secret);
+    },
+
+    authStaff: async (data) => {
+        const {accessKey} = data;
+        console.log(`Access key got: ${accessKey}`);
+
+        if (!accessKey) {
+            throw errors.invalidInput('Access Key is empty');
+        }
+
+        const user = await User.findOne(
+            {
+                where: {
+                    accessKey: accessKey
+                }
+            }
+        );
+
+        if (user) {
+            return user;
+        } else {
+            throw errors.entityNotFound;
+        }
     },
 
     updateUserById: async (userData) => {

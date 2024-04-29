@@ -29,9 +29,14 @@ class AddressRepository {
     return [];
   }
 
-  static void addUserAddress(int userId, String address) async {
-    final response = await dio.post('${Statics.baseUri}${Statics.addressesUri}',
-        data: {'userId': userId, 'address': address});
+  static void addUserAddress(int userId, DeliveryAddress address) async {
+    final response = await dio.post(
+      '${Statics.baseUri}${Statics.addressesUri}',
+      data: {
+        'userId': userId,
+        'address': address,
+      },
+    );
 
     Logs.infoLog('AddUserAddress Data\n${response.data}');
     if (response.statusCode == 404) {
@@ -40,8 +45,9 @@ class AddressRepository {
   }
 
   static void deleteUserAddress(int addressId) async {
-    final response = await dio.delete('${Statics.baseUri}${Statics.addressesUri}',
-        data: {'addressId': addressId });
+    final response = await dio.delete(
+        '${Statics.baseUri}${Statics.addressesUri}',
+        data: {'addressId': addressId});
 
     Logs.infoLog('DeleteUserAddress Data\n${response.data}');
   }

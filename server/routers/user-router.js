@@ -11,6 +11,11 @@ module.exports = () => {
         .all((req, res, next) => res.error(errors.methodNotAllowed));
 
     router
+        .route('/panel/auth')
+        .post(userController.authStaff)
+        .all((req, res, next) => res.error(errors.methodNotAllowed));
+
+    router
         .route('/register')
         .post(userController.register)
         .all((req, res, next) => res.error(errors.methodNotAllowed));
@@ -19,6 +24,7 @@ module.exports = () => {
         .route('/auth')
         .get(userController.auth)
         .all((req, res, next) => res.error(errors.methodNotAllowed));
+
     router
         .route('/roles')
         .get(userController.getAllRoles)

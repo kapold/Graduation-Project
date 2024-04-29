@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const errors = require("./helpers/errors");
 const errorController = require("./controllers/error-сontroller");
@@ -9,7 +10,9 @@ const deliveryAddressRoutes = require("./routers/delivery-address-router")();
 const productRoutes = require("./routers/product-router")();
 const orderRoutes = require("./routers/order-router")();
 const orderItemRoutes = require("./routers/order-item-router")();
+
 let app = express();
+app.use(cors());
 app.use(bodyParser.json({extended: false}));
 
 app.use(express.static(path.join(__dirname, 'context')));

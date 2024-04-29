@@ -1,3 +1,5 @@
+import 'package:client/models/delivery_address.dart';
+
 abstract class DeliveryAddressesEvent {}
 
 class GetAddressesEvent extends DeliveryAddressesEvent {
@@ -10,7 +12,7 @@ class GetAddressesEvent extends DeliveryAddressesEvent {
 
 class AddAddressEvent extends DeliveryAddressesEvent {
   final int userId;
-  final String address;
+  final DeliveryAddress address;
 
   AddAddressEvent({
     required this.userId,

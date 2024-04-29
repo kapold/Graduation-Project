@@ -12,6 +12,7 @@ module.exports = {
 
     addAddress: async (addressData) => {
         const { userId, address } = addressData;
+        console.log(`ADDRESS: ${address.toString()}`);
 
         if (!userId || !address) {
             throw errors.invalidInput('userId and address are required');
@@ -19,7 +20,10 @@ module.exports = {
 
         const newAddress = await DeliveryAddress.create({
             userId: parseInt(userId),
-            address: address,
+            city: address.city,
+            street: address.street,
+            homeNumber: address.homeNumber,
+            flatNumber: address.flatNumber,
         });
         return newAddress;
     },

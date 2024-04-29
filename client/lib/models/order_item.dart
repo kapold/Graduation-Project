@@ -18,8 +18,10 @@ class OrderItem extends Equatable {
   @HiveField(5)
   List<String> toppings;
   @HiveField(6)
-  int quantity;
+  List<String> removedCompositions;
   @HiveField(7)
+  int quantity;
+  @HiveField(8)
   double price;
 
   OrderItem({
@@ -29,6 +31,7 @@ class OrderItem extends Equatable {
     required this.size,
     required this.dough,
     required this.toppings,
+    required this.removedCompositions,
     required this.quantity,
     required this.price,
   });
@@ -64,7 +67,8 @@ class OrderItem extends Equatable {
       productId: json['productId'],
       size: json['size'],
       dough: json['dough'],
-      toppings: List<String>.from(json['toppings']),
+      toppings: List<String>.from(json['toppings'] ?? ''),
+      removedCompositions: List<String>.from(json['removedCompositions'] ?? ''),
       quantity: json['quantity'],
       price: (json['price'] is num) ? (json['price'] as num).toDouble() : 0.0,
     );
@@ -78,6 +82,7 @@ class OrderItem extends Equatable {
       'size': size,
       'dough': dough,
       'toppings': toppings,
+      'removedCompositions': removedCompositions,
       'quantity': quantity,
       'price': price.toStringAsFixed(2),
     };
@@ -92,6 +97,7 @@ class OrderItem extends Equatable {
         'size: $size, '
         'dough: $dough, '
         'toppings: $toppings, '
+        'removedCompositions: $removedCompositions, '
         'quantity: $quantity, '
         'price: $price'
     '}';

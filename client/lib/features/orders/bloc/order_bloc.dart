@@ -2,6 +2,7 @@ import 'package:client/features/orders/bloc/order_event.dart';
 import 'package:client/features/orders/bloc/order_state.dart';
 import 'package:client/models/order.dart';
 import 'package:client/repositories/order_repository.dart';
+import 'package:client/utils/logs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {

@@ -71,7 +71,7 @@ class _CartScreenState extends State<CartScreen> {
             List<Widget>.generate(_deliveryAddresses.length, (int index) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 64),
-                child: Center(child: Text(_deliveryAddresses[index].address)),
+                child: Center(child: Text(_deliveryAddresses[index].toString())),
               );
             }),
           ),
@@ -116,7 +116,7 @@ class _CartScreenState extends State<CartScreen> {
                     children: <Widget>[
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(externalContext);
+                          Navigator.pop(context);
                         },
                         child: Text(
                           'Закрыть',
@@ -143,9 +143,8 @@ class _CartScreenState extends State<CartScreen> {
                                 const SizedBox(height: 10),
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pop(externalContext);
-                                    Navigator.pushNamed(
-                                        externalContext, '/addresses');
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(externalContext, '/addresses');
                                   },
                                   style: ButtonStyle(
                                     fixedSize: MaterialStateProperty.all<Size>(
@@ -196,7 +195,7 @@ class _CartScreenState extends State<CartScreen> {
                                             children: [
                                               Expanded(
                                                 child: Text(
-                                                  _deliveryAddresses[_selectedAddressIndex].address,
+                                                  _deliveryAddresses[_selectedAddressIndex].toString(),
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TS.getOpenSans(
                                                       20,

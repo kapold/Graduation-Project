@@ -11,10 +11,14 @@ module.exports = (Sequelize, sequelize) => {
         },
         password: Sequelize.STRING,
         name: Sequelize.STRING,
+        accessKey: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
         token: Sequelize.STRING,
         role: {
             type: Sequelize.ENUM,
-            values: ['customer', 'admin', 'staff', 'deliveryman'],
+            values: ['customer', 'admin', 'deliveryman'],
             allowNull: true,
             defaultValue: 'customer',
         },

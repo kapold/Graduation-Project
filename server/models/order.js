@@ -9,6 +9,11 @@ module.exports = (Sequelize, sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: false,
         },
+        deliveryAddressId: {
+            type: Sequelize.INTEGER,
+            foreignKey: true,
+            allowNull: false,
+        },
         status: {
             type: Sequelize.ENUM,
             values: ['processing', 'completed', 'cancelled', 'in delivery', 'deliveried'],

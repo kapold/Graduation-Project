@@ -2,6 +2,7 @@ import 'package:client/features/delivery_addresses/bloc/delivery_addresses_bloc.
 import 'package:client/features/delivery_addresses/bloc/delivery_addresses_event.dart';
 import 'package:client/features/delivery_addresses/bloc/delivery_addresses_state.dart';
 import 'package:client/styles/ts.dart';
+import 'package:client/utils/logs.dart';
 import 'package:client/utils/profile_data.dart';
 import 'package:client/utils/snacks.dart';
 import 'package:client/widgets/loader.dart';
@@ -25,7 +26,10 @@ class DeliveryAddressesScreen extends StatefulWidget {
 class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
   final _deliveryAddressesBloc = DeliveryAddressesBloc();
   List<DeliveryAddress> _deliveryAddresses = [];
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _homeNumberController = TextEditingController();
+  final TextEditingController _flatNumberController = TextEditingController();
 
   @override
   void initState() {
@@ -34,15 +38,32 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
   }
 
   void _addAddressBtn() {
-    String address = _addressController.text;
-    if (address.isEmpty) {
-      Snacks.failed(context, 'Заполните поле с адресом!');
+    String city = _cityController.text;
+    String street = _streetController.text;
+    String homeNumber = _homeNumberController.text;
+    String flatNumber = _flatNumberController.text;
+    if (city.isEmpty || street.isEmpty || homeNumber.isEmpty) {
+      Snacks.failed(context, 'Заполните поля!');
       return;
     }
-    _deliveryAddressesBloc.add(AddAddressEvent(
-        userId: AppData.user.id, address: _addressController.text));
-    _addressController.text = '';
-    _deliveryAddressesBloc.add(GetAddressesEvent(userId: AppData.user.id));
+
+    _deliveryAddressesBloc.add(
+      AddAddressEvent(
+        userId: AppData.user.id,
+        address: DeliveryAddress(
+          id: 0,
+          userId: AppData.user.id,
+          city: city,
+          street: street,
+          homeNumber: homeNumber,
+          flatNumber: flatNumber,
+        ),
+      ),
+    );
+    _cityController.text = '';
+    _streetController.text = '';
+    _homeNumberController.text = '';
+    _flatNumberController.text = '';
   }
 
   void _deleteAddressBtn(int addressId) {
@@ -67,152 +88,214 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
             state is SuccessfulDeletedAddressesState) {
           return Scaffold(
             appBar: AppBars.getCommonAppBar('Адреса доставки', context),
-            body: Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: TextField(
-                            controller: _addressController,
-                            style: const TextStyle(fontSize: 18),
-                            decoration: InputDecorations.getOrangeDecoration(
-                                'Адрес доставки',
-                                'Введите новый адрес',
-                                Icons.location_on_outlined),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            _addAddressBtn();
-                          },
-                          style: ButtonStyles.getSquaredOutlinedRedButtonStyle(
-                              86, 14),
-                          child: Text(
-                            'Добавить адрес',
-                            style: TS.getOpenSans(
-                                20, FontWeight.w500, AppColors.deepOrange),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        _deliveryAddresses.isEmpty
-                            ? Center(
-                                child: Text(
-                                  'Добавьте пару своих адресов!',
-                                  style: TS.getOpenSans(
-                                      20, FontWeight.w300, AppColors.black),
-                                ),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: _deliveryAddresses.length,
-                                itemBuilder: (context, index) {
-                                  DeliveryAddress address =
-                                      _deliveryAddresses[index];
-                                  return Dismissible(
-                                    key: Key(address.address),
-                                    background:
-                                        Container(color: AppColors.darkerRed),
-                                    secondaryBackground: Container(
-                                      color: AppColors.darkerRed,
-                                      alignment: Alignment.centerRight,
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(right: 16),
-                                        child: Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    onDismissed: (direction) {
-                                      _deleteAddressBtn(address.id);
-                                      _deliveryAddresses.remove(address);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 32),
-                                      child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Image.asset(
-                                              'assets/icons/circle.png',
-                                              color: AppColors.deepOrange,
-                                              scale: 2.8,
-                                            ),
-                                            const SizedBox(width: 16),
-                                            Expanded(
-                                              child: Text(
-                                                address.address,
-                                                style: TS.getOpenSans(18, FontWeight.w500, AppColors.black),
-                                                overflow: TextOverflow.clip,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
-                      ],
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: TextField(
+                      controller: _cityController,
+                      style: const TextStyle(fontSize: 18),
+                      decoration: InputDecorations.getOrangeDecoration(
+                          'Город',
+                          'Введите город',
+                          Icons.location_on_outlined),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: TextField(
+                      controller: _streetController,
+                      style: const TextStyle(fontSize: 18),
+                      decoration: InputDecorations.getOrangeDecoration(
+                          'Улица',
+                          'Введите улицу',
+                          Icons.location_on_outlined),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: TextField(
+                      controller: _homeNumberController,
+                      style: const TextStyle(fontSize: 18),
+                      decoration: InputDecorations.getOrangeDecoration(
+                          'Номер дома',
+                          'Введите номер дома',
+                          Icons.location_on_outlined),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: TextField(
+                      controller: _flatNumberController,
+                      style: const TextStyle(fontSize: 18),
+                      decoration: InputDecorations.getOrangeDecoration(
+                          'Номер квартиры',
+                          'Введите номер квартиры (опционально)',
+                          Icons.location_on_outlined),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      _addAddressBtn();
+                    },
+                    style: ButtonStyles.getSquaredOutlinedRedButtonStyle(
+                        106, 14),
+                    child: Text(
+                      'Добавить адрес',
+                      style: TS.getOpenSans(
+                          20, FontWeight.w500, AppColors.deepOrange),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  _deliveryAddresses.isEmpty
+                      ? Center(
+                    child: Text(
+                      'Добавьте пару своих адресов!',
+                      style: TS.getOpenSans(
+                          20, FontWeight.w300, AppColors.black),
+                    ),
+                  )
+                      : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _deliveryAddresses.length,
+                    itemBuilder: (context, index) {
+                      DeliveryAddress address =
+                      _deliveryAddresses[index];
+                      return Dismissible(
+                        key: Key(address.street),
+                        background:
+                        Container(color: AppColors.darkerRed),
+                        secondaryBackground: Container(
+                          color: AppColors.darkerRed,
+                          alignment: Alignment.centerRight,
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 16),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        onDismissed: (direction) {
+                          _deleteAddressBtn(address.id);
+                          _deliveryAddresses.remove(address);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 32),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/circle.png',
+                                  color: AppColors.deepOrange,
+                                  scale: 2.8,
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Text(
+                                    address.toString(),
+                                    style: TS.getOpenSans(
+                                        18,
+                                        FontWeight.w500,
+                                        AppColors.black),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                ],
               ),
             ),
           );
         }
+
         return Scaffold(
           appBar: AppBars.getCommonAppBar('Адреса доставки', context),
-          body: Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: TextField(
-                          controller: _addressController,
-                          style: const TextStyle(fontSize: 18),
-                          decoration: InputDecorations.getOrangeDecoration(
-                              'Адрес доставки',
-                              'Введите новый адрес',
-                              Icons.location_on_outlined),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          _addAddressBtn();
-                        },
-                        style: ButtonStyles.getSquaredOutlinedRedButtonStyle(
-                            86, 14),
-                        child: Text(
-                          'Добавить адрес',
-                          style: TS.getOpenSans(
-                              20, FontWeight.w500, AppColors.deepOrange),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Center(
-                        child: Text(
-                          'Добавьте пару своих адресов!',
-                          style: TS.getOpenSans(
-                              20, FontWeight.w300, AppColors.black),
-                        ),
-                      )
-                    ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: TextField(
+                    controller: _cityController,
+                    style: const TextStyle(fontSize: 18),
+                    decoration: InputDecorations.getOrangeDecoration(
+                        'Город',
+                        'Введите город',
+                        Icons.location_on_outlined),
                   ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: TextField(
+                    controller: _streetController,
+                    style: const TextStyle(fontSize: 18),
+                    decoration: InputDecorations.getOrangeDecoration(
+                        'Улица',
+                        'Введите улицу',
+                        Icons.location_on_outlined),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: TextField(
+                    controller: _homeNumberController,
+                    style: const TextStyle(fontSize: 18),
+                    decoration: InputDecorations.getOrangeDecoration(
+                        'Номер дома',
+                        'Введите номер дома',
+                        Icons.location_on_outlined),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: TextField(
+                    controller: _flatNumberController,
+                    style: const TextStyle(fontSize: 18),
+                    decoration: InputDecorations.getOrangeDecoration(
+                        'Номер квартиры',
+                        'Введите номер квартиры (опционально)',
+                        Icons.location_on_outlined),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    _addAddressBtn();
+                  },
+                  style: ButtonStyles.getSquaredOutlinedRedButtonStyle(
+                      86, 14),
+                  child: Text(
+                    'Добавить адрес',
+                    style: TS.getOpenSans(
+                        20, FontWeight.w500, AppColors.deepOrange),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    'Добавьте пару своих адресов!',
+                    style: TS.getOpenSans(
+                        20, FontWeight.w300, AppColors.black),
+                  ),
+                )
+              ],
             ),
           ),
         );
@@ -220,14 +303,14 @@ class _DeliveryAddressesScreenState extends State<DeliveryAddressesScreen> {
       listener: (context, state) {
         if (state is SuccessfulLoadedAddressesState) {
           _deliveryAddresses = state.deliveryAddresses;
+          Logs.infoLog('GOT AD: ${state.deliveryAddresses}');
         }
         if (state is FailedAddressesState) {
           Snacks.failed(context, 'Ошибка добавления адреса');
         }
         if (state is SuccessfulAddedAddressesState) {
           Snacks.success(context, 'Адрес добавлен успешно');
-          _deliveryAddressesBloc
-              .add(GetAddressesEvent(userId: AppData.user.id));
+          _deliveryAddressesBloc.add(GetAddressesEvent(userId: AppData.user.id));
         }
         if (state is SuccessfulDeletedAddressesState) {
           Snacks.success(context, 'Адрес удален успешно');

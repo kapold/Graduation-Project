@@ -28,6 +28,11 @@ module.exports = (Sequelize, sequelize) => {
             allowNull: true,
             defaultValue: null,
         },
+        removedCompositions: {
+            type: Sequelize.ARRAY(Sequelize.STRING),
+            allowNull: true,
+            defaultValue: null,
+        },
         quantity: {
             type: Sequelize.INTEGER,
             allowNull: false,

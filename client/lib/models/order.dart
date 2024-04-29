@@ -75,7 +75,7 @@ class Order {
         userId: json['userId'],
         status: json['status'],
         paymentType: json['paymentType'],
-        totalPrice: json['totalPrice'],
+        totalPrice: json['totalPrice'] is String ? double.parse(json['totalPrice']) : json['totalPrice'].toDouble(),
         createdAt: DateTime.parse(json['createdAt']),
     );
   }

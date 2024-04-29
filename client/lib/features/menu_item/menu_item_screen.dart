@@ -1,9 +1,12 @@
 import 'package:client/features/cart/bloc/cart_bloc.dart';
 import 'package:client/features/cart/bloc/cart_event.dart';
+import 'package:client/features/viewer_3d/viewer_3d_screen.dart';
+import 'package:client/models/composition.dart';
 import 'package:client/models/order_item.dart';
 import 'package:client/models/topping.dart';
 import 'package:client/styles/app_colors.dart';
 import 'package:client/utils/local_db.dart';
+import 'package:client/utils/logs.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:uuid/uuid.dart';
@@ -39,12 +42,23 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     Topping(id: 8, name: 'Ананасы', price: 2.99),
     Topping(id: 9, name: 'Бекон', price: 3.49),
   ];
+  late List<Composition> _compositions;
   String size = 'Маленькая', dough = 'Традиционное';
   int _pizzaSizeIndex = 0, _doughSizeIndex = 0;
 
   @override
   void initState() {
     super.initState();
+
+    List<String> components = widget.product.description.split(',');
+
+    _compositions = components.asMap().entries.map((entry) {
+      int idx = entry.key;
+      String name = entry.value.trim();
+      return Composition(id: idx, name: name);
+    }).toList();
+    Logs.infoLog('COMP: $_compositions');
+
     _getProductInfo();
   }
 
@@ -91,10 +105,13 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
   List<String> _getToppings(List<Topping> toppings) {
     return List<String>.from(toppings.where((topping) => topping.isSelected).map((topping) => topping.name));
   }
+  List<String> _getRemovedCompositions(List<Composition> compositions) {
+    return List<String>.from(compositions.where((composition) => composition.isSelected).map((composition) => composition.name));
+  }
+
 
   void _addToCart(OrderItem orderItem) {
     LocalDb().addOrderItem(orderItem);
-    // Snacks.success(context, 'Добавлено в корзину');
     Navigator.pop(context);
     widget.cartBloc.add(GetCartEvent());
   }
@@ -254,6 +271,10 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
     topping.isSelected = !topping.isSelected;
   }
 
+  void _selectComposition(Composition composition) {
+    composition.isSelected = !composition.isSelected;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -267,11 +288,21 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                 padding: const EdgeInsets.only(left: 32, right: 32, top: 8),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Hero(
-                        tag: 'productImage#${widget.product.id}',
-                        child: Image.network(widget.product.imageUrl),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Viewer3dScreen(modelUrl: widget.product.imageUrl),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Hero(
+                          tag: 'productImage#${widget.product.id}',
+                          child: Image.network(widget.product.imageUrl),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -330,6 +361,14 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                       },
                     ),
                     const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Добавить в состав',
+                        style: TS.getOpenSans(20, FontWeight.w600, AppColors.black),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -341,6 +380,29 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                             _updatePageInfo();
                           },
                           child: MenuItems.getToppingItem(_toppings[index]),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Убрать из состава',
+                        style: TS.getOpenSans(20, FontWeight.w600, AppColors.black),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _compositions.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            _selectComposition(_compositions[index]);
+                            _updatePageInfo();
+                          },
+                          child: MenuItems.getCompositionItem(_compositions[index]),
                         );
                       },
                     ),
@@ -361,6 +423,7 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                   size: _getSize(size),
                   dough: _getDough(dough),
                   toppings: _getToppings(_toppings),
+                  removedCompositions: _getRemovedCompositions(_compositions),
                   quantity: 1,
                   price: _productInfo.price,
                 ));

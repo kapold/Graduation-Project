@@ -5,10 +5,12 @@ import 'package:client/features/order_history/order_history_screen.dart';
 import 'package:client/features/orders/bloc/order_bloc.dart';
 import 'package:client/features/settings/settings_screen.dart';
 import 'package:client/features/welcome/welcome_screen.dart';
+import 'package:client/firebase_options.dart';
 import 'package:client/repositories/user_repository.dart';
-import 'package:client/styles/app_theme.dart';
+import 'package:client/styles/app_colors.dart';
 import 'package:client/utils/local_db.dart';
 import 'package:client/utils/local_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,10 +24,8 @@ import 'features/registration/registration_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   LocalDb().init();
-  ThemeData themeData = (await LocalStorage.getTheme() == 'light')
-      ? AppTheme.getLightTheme()
-      : AppTheme.getDarkTheme();
 
   String initialRoute = '/welcome';
   UserRepository.auth(await LocalStorage.getToken()).then((response) {
@@ -42,7 +42,7 @@ Future<void> main() async {
       BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
       BlocProvider<CartBloc>(create: (_) => CartBloc()),
       BlocProvider<OrderBloc>(create: (_) => OrderBloc()),
-    ], child: PizzaApp(initialRoute, themeData)));
+    ], child: PizzaApp(initialRoute)));
   }).onError((error, stackTrace) {
     runApp(MultiBlocProvider(providers: [
       BlocProvider<LoginBloc>(create: (_) => LoginBloc()),
@@ -51,15 +51,14 @@ Future<void> main() async {
       BlocProvider<MenuBloc>(create: (_) => MenuBloc()),
       BlocProvider<CartBloc>(create: (_) => CartBloc()),
       BlocProvider<OrderBloc>(create: (_) => OrderBloc()),
-    ], child: PizzaApp(initialRoute, themeData)));
+    ], child: PizzaApp(initialRoute)));
   });
 }
 
 class PizzaApp extends StatelessWidget {
   final String initialRoute;
-  final ThemeData themeData;
 
-  const PizzaApp(this.initialRoute, this.themeData, {super.key});
+  const PizzaApp(this.initialRoute, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +73,12 @@ class PizzaApp extends StatelessWidget {
         '/settings': (context) => const SettingsScreen(),
         '/order-history': (context) => const OrderHistoryScreen(),
       },
-      theme: themeData,
+      theme: ThemeData(
+        primaryColor: AppColors.darkerRed,
+        scaffoldBackgroundColor: AppColors.white,
+        fontFamily: 'Poppins',
+        useMaterial3: true,
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
