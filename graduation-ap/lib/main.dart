@@ -3,10 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:graduation_ap/firebase_options.dart';
 import 'package:graduation_ap/styles/app_colors.dart';
 import 'package:graduation_ap/ui/auth/auth_screen.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:graduation_ap/utils/statics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.web,
+    );
+    Statics.baseUri = 'http://localhost:3000';
+  } else {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.android,
+    );
+    Statics.baseUri = 'http://10.0.2.2:3000';
+  }
 
   runApp(const PizzaApApp());
 }

@@ -17,22 +17,6 @@ module.exports = {
         }
     },
 
-    getCustomer: async (req, res, next) => {
-        try {
-            res.json(await userService.getCustomer(req.body));
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    getDeliveryman: async (req, res, next) => {
-        try {
-            res.json(await userService.getDeliveryman(req.body));
-        } catch (error) {
-            next(error);
-        }
-    },
-
     getAll: async (req, res, next) => {
         try {
             res.json(await userService.getAll());

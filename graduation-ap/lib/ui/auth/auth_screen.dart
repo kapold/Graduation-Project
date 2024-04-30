@@ -27,7 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void initState() {
     _accessKeyController = TextEditingController();
-    _authBloc.add(AuthUserEvent('2602'));
+    // _authBloc.add(AuthUserEvent('2602'));
     super.initState();
   }
 

@@ -7,7 +7,7 @@ import 'package:graduation_ap/utils/logs.dart';
 import 'package:graduation_ap/utils/snacks.dart';
 import 'package:graduation_ap/widgets/app_bar_style.dart';
 import 'package:graduation_ap/widgets/input_decorations.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+// import 'package:image_picker_web/image_picker_web.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../../blocs/menu/menu_bloc.dart';
@@ -56,26 +56,26 @@ class _ChangeMenuItemScreenState extends State<ChangeMenuItemScreen> {
   }
 
   Future<void> _pickFile() async {
-    final mediaData = await ImagePickerWeb.getImageInfo;
-    if (mediaData != null) {
-      String fileName = mediaData.fileName!;
-      var fileBytes = mediaData.data;
-
-      try {
-        String filePath = 'images/$fileName';
-        var ref = storage.ref().child(filePath);
-        var uploadTask = ref.putData(fileBytes!);
-        await uploadTask.whenComplete(() async {
-          var url = await ref.getDownloadURL();
-          setState(() {
-            _imageUrl = url;
-          });
-          Logs.infoLog('Image URL: $_imageUrl');
-        });
-      } catch (e) {
-        Logs.traceLog(e.toString());
-      }
-    }
+    // final mediaData = await ImagePickerWeb.getImageInfo;
+    // if (mediaData != null) {
+    //   String fileName = mediaData.fileName!;
+    //   var fileBytes = mediaData.data;
+    //
+    //   try {
+    //     String filePath = 'images/$fileName';
+    //     var ref = storage.ref().child(filePath);
+    //     var uploadTask = ref.putData(fileBytes!);
+    //     await uploadTask.whenComplete(() async {
+    //       var url = await ref.getDownloadURL();
+    //       setState(() {
+    //         _imageUrl = url;
+    //       });
+    //       Logs.infoLog('Image URL: $_imageUrl');
+    //     });
+    //   } catch (e) {
+    //     Logs.traceLog(e.toString());
+    //   }
+    // }
   }
 
   void _changeProduct() {

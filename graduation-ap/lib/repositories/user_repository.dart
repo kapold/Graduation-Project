@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:graduation_ap/utils/app_data.dart';
 
 import '../models/user.dart';
 import '../utils/logs.dart';
@@ -38,6 +39,22 @@ class UserRepository {
       throw Exception('User not found');
     } else {
       throw Exception('User get error');
+    }
+  }
+
+  static Future<void> updateUserGeo(double latitude, double longitude) async {
+    final response = await dio.put(
+      '${Statics.baseUri}${Statics.userUri}/geo',
+      data: {
+        'id': AppData.currentUser.id,
+        'latitude': latitude,
+        'longitude': longitude,
+      },
+    );
+
+    Logs.infoLog('UpdateUserGeo Data\n${response.statusCode}\n${response.data}');
+    if (response.statusCode != 200) {
+      throw Exception('Update geo error');
     }
   }
 }
