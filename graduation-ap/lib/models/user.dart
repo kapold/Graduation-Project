@@ -3,16 +3,22 @@ class User {
   String phoneNumber;
   String password;
   String name;
+  String accessKey;
   String token;
   String role;
+  double latitude;
+  double longitude;
 
   User({
     required this.id,
     required this.phoneNumber,
     required this.password,
     required this.name,
+    required this.accessKey,
     required this.token,
     required this.role,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -21,8 +27,11 @@ class User {
       phoneNumber: json['phoneNumber'],
       password: json['password'],
       name: json['name'],
+      accessKey: json['accessKey'].toString(),
       token: json['token'],
       role: json['role'],
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
     );
   }
 
@@ -32,8 +41,11 @@ class User {
       'phoneNumber': phoneNumber,
       'password': password,
       'name': name,
+      'accessKey': accessKey,
       'token': token,
       'role': role,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 }

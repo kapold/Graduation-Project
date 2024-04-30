@@ -42,19 +42,22 @@ class CartItems {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(
-                product.imageUrl,
-                scale: 2.5,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return Center(
-                      child: Loaders.getAdaptiveLoader(),
-                    );
-                  }
-                },
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: Image.network(
+                  product.imageUrl,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return Center(
+                        child: Loaders.getAdaptiveLoader(),
+                      );
+                    }
+                  },
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

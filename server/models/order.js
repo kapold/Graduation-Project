@@ -7,7 +7,13 @@ module.exports = (Sequelize, sequelize) => {
         },
         userId: {
             type: Sequelize.INTEGER,
+            foreignKey: true,
             allowNull: false,
+        },
+        deliverymanId: {
+            type: Sequelize.INTEGER,
+            foreignKey: true,
+            allowNull: true,
         },
         deliveryAddressId: {
             type: Sequelize.INTEGER,
@@ -30,6 +36,10 @@ module.exports = (Sequelize, sequelize) => {
             allowNull: false,
         },
         createdAt: {
+            type: Sequelize.DATE,
+            defaultValue: Sequelize.NOW,
+        },
+        updatedAt: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW,
         },

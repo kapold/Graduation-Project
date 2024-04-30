@@ -8,6 +8,11 @@ module.exports = (Sequelize, sequelize) => {
         orderId: {
             type: Sequelize.INTEGER,
             allowNull: false,
+            references: {
+                model: 'orders',
+                key: 'id',
+            },
+            onDelete: 'CASCADE',
         },
         productId: {
             type: Sequelize.INTEGER,

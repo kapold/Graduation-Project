@@ -331,10 +331,13 @@ class _MenuItemScreenState extends State<MenuItemScreen> {
                             16, FontWeight.w600, AppColors.grey),
                       ),
                     ),
-                    Text(
-                      widget.product.description,
-                      style: TS.getOpenSans(
-                          16, FontWeight.w500, AppColors.black),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.product.description,
+                        style: TS.getOpenSans(
+                            16, FontWeight.w500, AppColors.black),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     ToggleSwitch(

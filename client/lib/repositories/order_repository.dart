@@ -8,12 +8,12 @@ import 'dio_options.dart';
 class OrderRepository {
   static final dio = Dio()..options = DioOptions.baseOptions;
 
-  static Future<void> addOrder(int userId, String paymentType, double totalPrice, List<OrderItem> orderItems) async {
-    Logs.infoLog('ITEMS: ${orderItems.map((item) => item.toJson()).toList()}');
+  static Future<void> addOrder(int userId, int deliveryAddressId, String paymentType, double totalPrice, List<OrderItem> orderItems) async {
     final response = await dio.post(
       '${Statics.baseUri}${Statics.ordersUri}',
       data: {
         'userId': userId,
+        'deliveryAddressId': deliveryAddressId,
         'paymentType': paymentType,
         'totalPrice': totalPrice.toStringAsFixed(2),
         'orderItems': orderItems.map((item) => item.toJson()).toList(),
@@ -21,6 +21,9 @@ class OrderRepository {
     );
 
     Logs.infoLog('AddOrder Data\n${response.data}');
+    if (response.statusCode != 200) {
+      throw Exception('Ошибка заказа');
+    }
   }
 
   static Future<List<Order>> getOrdersByUserId(int userId) async {

@@ -33,4 +33,13 @@ module.exports = {
             next(error);
         }
     },
+
+    updateStatus: async (req, res, next) => {
+        try {
+            console.log('UPDATE STATUS');
+            res.json(await orderService.updateStatus(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
 };

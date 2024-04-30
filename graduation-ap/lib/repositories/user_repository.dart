@@ -25,4 +25,19 @@ class UserRepository {
       throw Exception('Auth error');
     }
   }
+
+  static Future<User> getUserById(int userId) async {
+    final response = await dio.get(
+      '${Statics.baseUri}${Statics.userUri}$userId',
+    );
+
+    Logs.infoLog('GetUserById Data\n${response.statusCode}\n${response.data}');
+    if (response.statusCode == 200) {
+      return User.fromJson(response.data);
+    } else if (response.statusCode == 404) {
+      throw Exception('User not found');
+    } else {
+      throw Exception('User get error');
+    }
+  }
 }

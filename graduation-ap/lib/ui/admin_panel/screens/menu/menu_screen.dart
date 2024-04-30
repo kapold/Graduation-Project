@@ -119,11 +119,13 @@ class _MenuScreenState extends State<MenuScreen> {
                     TS.getOpenSans(20, FontWeight.w600, AppColors.black),
                   ),
                   SizedBox(
-                    width: 700,
+                    width: 600,
                     child: Text(
                       product.description,
                       style: TS.getOpenSans(
                           16, FontWeight.w500, AppColors.black),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
                     ),
                   ),
                 ],

@@ -8,6 +8,43 @@ import 'dio_options.dart';
 class OrderRepository {
   static final dio = Dio()..options = DioOptions.baseOptions;
 
+  static Future<List<Order>> getAllOrders() async {
+    final response = await dio.get(
+      '${Statics.baseUri}${Statics.ordersUri}',
+    );
+
+    Logs.infoLog('GetAllOrders Data\n${response.data}');
+    if (response.statusCode == 200) {
+      List<Order> orders = [];
+      List<dynamic> ordersJson = response.data;
+
+      for (var orderJson in ordersJson) {
+        orders.add(Order.fromJson(orderJson));
+      }
+      return orders;
+    } else if (response.statusCode == 404) {
+      Logs.infoLog('Orders not found');
+    } else {
+      Logs.infoLog('GetAllOrders error');
+    }
+    return [];
+  }
+
+  static Future<void> updateOrderStatus(int orderId, String newStatus) async {
+    final response = await dio.put(
+      '${Statics.baseUri}${Statics.ordersUri}',
+      data: {
+        'orderId': orderId,
+        'newStatus': newStatus,
+      }
+    );
+
+    Logs.infoLog('UpdateOrderStatus Data\n${response.data}');
+    if (response.statusCode != 200) {
+      throw Exception('Ошибка обновления статуса');
+    }
+  }
+
   static Future<void> addOrder(int userId, String paymentType, double totalPrice, List<OrderItem> orderItems) async {
     Logs.infoLog('ITEMS: ${orderItems.map((item) => item.toJson()).toList()}');
     final response = await dio.post(

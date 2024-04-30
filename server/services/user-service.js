@@ -6,6 +6,39 @@ const statics = require('../helpers/statics');
 
 
 module.exports = {
+    getUserGeo: async (userData) => {
+        const { id } = userData;
+        if (!id) {
+            throw errors.invalidInput('User ID is required');
+        }
+
+        const user = await User.findByPk(id);
+        if (!user) {
+            throw errors.entityNotFound;
+        }
+
+        return { latitude: user.latitude, longitude: user.longitude };
+    },
+
+    updateUserGeo: async (userData) => {
+        const { id, latitude, longitude } = userData;
+
+        if (!id || latitude === undefined || longitude === undefined) {
+            throw errors.invalidInput('User ID, latitude and longitude are required');
+        }
+
+        const user = await User.findByPk(id);
+        if (!user) {
+            throw errors.entityNotFound;
+        }
+
+        user.latitude = latitude;
+        user.longitude = longitude;
+        await user.save();
+
+        return user;
+    },
+
     getAll: async () => {
         return User.findAll();
     },
@@ -97,7 +130,6 @@ module.exports = {
 
     authStaff: async (data) => {
         const {accessKey} = data;
-        console.log(`Access key got: ${accessKey}`);
 
         if (!accessKey) {
             throw errors.invalidInput('Access Key is empty');

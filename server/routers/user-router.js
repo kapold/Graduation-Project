@@ -11,6 +11,12 @@ module.exports = () => {
         .all((req, res, next) => res.error(errors.methodNotAllowed));
 
     router
+        .route('/geo')
+        .get(userController.getUserGeo)
+        .put(userController.updateUserGeo)
+        .all((req, res, next) => res.error(errors.methodNotAllowed));
+
+    router
         .route('/panel/auth')
         .post(userController.authStaff)
         .all((req, res, next) => res.error(errors.methodNotAllowed));

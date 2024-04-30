@@ -29,9 +29,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       
       OrderRepository.addOrder(
         event.userId,
+        event.deliveryAddressId,
         event.paymentType,
         event.totalPrice,
-        event.orderItems
+        event.orderItems,
       );
 
       emit(SuccessfulOrderedState());

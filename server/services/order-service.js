@@ -6,6 +6,7 @@ const {sequelize} = require("../context");
 
 module.exports = {
     getAll: async () => {
+        console.log(`ORDERS: ${await Order.findAll()}`);
         return Order.findAll();
     },
 
@@ -13,6 +14,24 @@ module.exports = {
         const order = await Order.findByPk(parseInt(orderId));
         if (!order)
             throw errors.entityNotFound;
+        return order;
+    },
+
+    updateStatus: async (data) => {
+        const { orderId, newStatus } = data;
+
+        if (!orderId || !newStatus) {
+            throw new Error("Order ID and new status must be provided");
+        }
+
+        const order = await Order.findByPk(parseInt(orderId));
+        if (!order) {
+            throw errors.entityNotFound;
+        }
+
+        order.status = newStatus;
+        await order.save();
+
         return order;
     },
 
@@ -28,12 +47,13 @@ module.exports = {
     },
 
     addOrder: async (orderData) => {
-        const { userId, paymentType, totalPrice, orderItems } = orderData;
+        const { userId, deliveryAddressId, paymentType, totalPrice, orderItems } = orderData;
         const t = await sequelize.transaction();
 
         try {
             const order = await Order.create({
                 userId,
+                deliveryAddressId,
                 paymentType,
                 totalPrice,
             }, { transaction: t });

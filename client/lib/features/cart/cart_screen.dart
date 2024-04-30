@@ -84,6 +84,7 @@ class _CartScreenState extends State<CartScreen> {
     Navigator.pop(context);
     cartBloc.add(OrderCartEvent(
       AppData.user.id,
+      _deliveryAddresses[_selectedAddressIndex].id,
       _paymentTypes[_selectedPaymentIndex] == 'Наличными' ? 'in cash' : 'by card',
       CartItems.getTotalPrice(orderItems),
       orderItems,

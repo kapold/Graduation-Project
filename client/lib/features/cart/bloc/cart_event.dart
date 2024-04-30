@@ -6,9 +6,10 @@ class GetCartEvent extends CartEvent {}
 
 class OrderCartEvent extends CartEvent {
   final int userId;
+  final int deliveryAddressId;
   final String paymentType;
   final double totalPrice;
   final List<OrderItem> orderItems;
 
-  OrderCartEvent(this.userId, this.paymentType, this.totalPrice, this.orderItems);
+  OrderCartEvent(this.userId, this.deliveryAddressId, this.paymentType, this.totalPrice, this.orderItems);
 }

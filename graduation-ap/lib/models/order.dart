@@ -6,23 +6,34 @@ import '../styles/app_colors.dart';
 class Order {
   int id;
   int userId;
+  int? deliverymanId;
+  int deliveryAddressId;
   String status;
   String paymentType;
   double totalPrice;
   DateTime createdAt;
+  DateTime updatedAt;
 
   Order({
     required this.id,
     required this.userId,
+    required this.deliverymanId,
+    required this.deliveryAddressId,
     required this.status,
     required this.paymentType,
     required this.totalPrice,
     required this.createdAt,
+    required this.updatedAt,
   });
 
   String get createdAtFormatted {
     final DateFormat formatter = DateFormat('dd.MM.yyyy, HH:mm');
     return formatter.format(createdAt);
+  }
+
+  String get updatedAtFormatted {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy, HH:mm');
+    return formatter.format(updatedAt);
   }
 
   String get statusFormatted {
@@ -74,10 +85,13 @@ class Order {
     return Order(
         id: json['id'],
         userId: json['userId'],
+        deliverymanId: json['deliverymanId'],
+        deliveryAddressId: json['deliveryAddressId'],
         status: json['status'],
         paymentType: json['paymentType'],
         totalPrice: json['totalPrice'] is String ? double.parse(json['totalPrice']) : json['totalPrice'].toDouble(),
         createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
 
@@ -85,10 +99,13 @@ class Order {
     return {
       'id': id,
       'userId': userId,
+      'deliverymanId': deliverymanId ?? 0,
+      'deliveryAddressId': deliveryAddressId,
       'status': status,
       'paymentType': paymentType,
       'totalPrice': totalPrice,
       'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
     };
   }
 }

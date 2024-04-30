@@ -1,6 +1,38 @@
 const userService = require('../services/user-service');
 
 module.exports = {
+    getUserGeo: async (req, res, next) => {
+        try {
+            res.json(await userService.getUserGeo(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    updateUserGeo: async (req, res, next) => {
+        try {
+            res.json(await userService.updateUserGeo(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    getCustomer: async (req, res, next) => {
+        try {
+            res.json(await userService.getCustomer(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    getDeliveryman: async (req, res, next) => {
+        try {
+            res.json(await userService.getDeliveryman(req.body));
+        } catch (error) {
+            next(error);
+        }
+    },
+
     getAll: async (req, res, next) => {
         try {
             res.json(await userService.getAll());

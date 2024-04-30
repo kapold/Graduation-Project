@@ -9,6 +9,7 @@ module.exports = () => {
         .route('/')
         .get(orderController.getAll)
         .post(orderController.addOrder)
+        .put(orderController.updateStatus)
         .all((req, res, next) => res.error(errors.methodNotAllowed));
 
     router

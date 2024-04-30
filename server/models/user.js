@@ -22,5 +22,15 @@ module.exports = (Sequelize, sequelize) => {
             allowNull: true,
             defaultValue: 'customer',
         },
+        latitude: {
+            type: Sequelize.FLOAT,
+            allowNull: true,
+            defaultValue: 0,
+        },
+        longitude: {
+            type: Sequelize.FLOAT,
+            allowNull: true,
+            defaultValue: 0,
+        },
     });
 }

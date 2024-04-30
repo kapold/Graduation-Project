@@ -119,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         else if (state is FailedLoginState) {
           Snacks.failed(context, state.errorMessage);
+          Logs.traceLog(state.errorMessage);
         }
       }
     );

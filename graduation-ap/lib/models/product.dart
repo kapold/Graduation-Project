@@ -61,7 +61,7 @@ class Product extends Equatable {
 
   @override
   String toString() {
-    return 'Product {price: $price, weight: $weight}';
+    return 'Название: $name';
   }
 
   @override
