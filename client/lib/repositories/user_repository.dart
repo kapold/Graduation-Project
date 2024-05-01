@@ -14,11 +14,27 @@ class UserRepository {
     Logs.infoLog('Login Data\n${response.data}');
     if (response.statusCode == 200) {
       return User.fromJson(response.data);
-    }
-    else if (response.statusCode == 404) {
+    } else if (response.statusCode == 404) {
       throw Exception('User not found');
+    } else {
+      throw Exception('Error: Login');
     }
-    else {
+  }
+
+  static Future<Map<String, dynamic>> getUserGeoById(int userId) async {
+    final response = await dio.get(
+      '${Statics.baseUri}${Statics.userUri}geo',
+      data: {
+        'id': userId,
+      },
+    );
+
+    Logs.infoLog('GetUserGeoById Data\n${response.data}');
+    if (response.statusCode == 200) {
+      return response.data;
+    } else if (response.statusCode == 404) {
+      throw Exception('User not found');
+    } else {
       throw Exception('Error: Login');
     }
   }
@@ -36,14 +52,11 @@ class UserRepository {
     Logs.infoLog('Register Data\n${response.data}');
     if (response.statusCode == 200) {
       return User.fromJson(response.data);
-    }
-    else if (response.statusCode == 400) {
+    } else if (response.statusCode == 400) {
       throw Exception('Invalid data');
-    }
-    else if (response.statusCode == 409) {
+    } else if (response.statusCode == 409) {
       throw Exception('User already exists');
-    }
-    else {
+    } else {
       throw Exception('Register error');
     }
   }
@@ -55,11 +68,9 @@ class UserRepository {
     // Logs.infoLog('Auth Data\n${response.data}');
     if (response.statusCode == 200) {
       return response;
-    }
-    else if (response.statusCode == 500) {
+    } else if (response.statusCode == 500) {
       return response;
-    }
-    else {
+    } else {
       throw Exception('Auth error');
     }
   }
@@ -70,11 +81,9 @@ class UserRepository {
     // Logs.infoLog('GetUserById Data\n${response.data}');
     if (response.statusCode == 200) {
       return User.fromJson(response.data);
-    }
-    else if (response.statusCode == 404) {
+    } else if (response.statusCode == 404) {
       throw Exception('User not found');
-    }
-    else {
+    } else {
       throw Exception('GetUserById error');
     }
   }
@@ -86,11 +95,9 @@ class UserRepository {
     Logs.infoLog('Delete User Data\n${response.data}');
     if (response.statusCode == 400) {
       throw Exception('Invalid Id');
-    }
-    else if (response.statusCode == 404) {
+    } else if (response.statusCode == 404) {
       throw Exception('User not found');
-    }
-    else {
+    } else {
       throw Exception('User delete error');
     }
   }
@@ -102,8 +109,7 @@ class UserRepository {
     Logs.infoLog('Update User Data\n${response.data}');
     if (response.statusCode == 404) {
       throw Exception('User not found');
-    }
-    else {
+    } else {
       throw Exception('Update user error');
     }
   }

@@ -30,7 +30,7 @@ class _OrderItemScreenState extends State<OrderItemScreen> {
             return Center(child: Text('Ошибка: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             List<OrderItem> orderItems = snapshot.data!;
-            return OrderItems.getOrderInfo(widget.order, orderItems);
+            return OrderItems.getOrderInfo(widget.order, orderItems, context);
           } else {
             return const Center(child: Text('Нет данных о заказанных товарах'));
           }

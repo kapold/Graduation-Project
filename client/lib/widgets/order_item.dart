@@ -1,4 +1,5 @@
 import 'package:client/features/order_item/order_item_screen.dart';
+import 'package:client/features/order_map/order_map_screen.dart';
 import 'package:client/repositories/product_repository.dart';
 import 'package:client/styles/app_colors.dart';
 import 'package:client/styles/ts.dart';
@@ -130,19 +131,22 @@ class OrderItems {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Image.network(
-                product.imageUrl,
-                scale: 2.5,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return Center(
-                      child: Loaders.getAdaptiveLoader(),
-                    );
-                  }
-                },
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: Image.network(
+                  product.imageUrl,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return Center(
+                        child: Loaders.getAdaptiveLoader(),
+                      );
+                    }
+                  },
+                ),
               ),
               Expanded(
                 child: Column(
@@ -174,11 +178,41 @@ class OrderItems {
     );
   }
 
-  static Widget getOrderInfo(Order order, List<OrderItem> orderItems) {
+  static Widget getOrderInfo(
+      Order order, List<OrderItem> orderItems, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
+          order.deliverymanId != null
+              ? Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.black,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderMapScreen(
+                              deliverymanId: order.deliverymanId!),
+                        ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/map_scheme.jpg',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
